@@ -1,0 +1,397 @@
+/* Capabilities stacked carousel — TBD Labs tokens, no Tailwind */
+
+.cap-intro {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+}
+
+.cap-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.3rem 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-accent);
+  background: var(--accent-subtle);
+  color: var(--accent-primary);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.cap-intro h2 {
+  margin-bottom: 1rem;
+}
+
+.cap-intro p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.cap-stage {
+  position: relative;
+  width: 100%;
+  height: min(72vh, 640px);
+  min-height: 480px;
+  border-radius: var(--radius-xl, 20px);
+  overflow: hidden;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  outline: none;
+}
+
+.cap-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cap-progress-bar {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--accent-primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+  box-shadow: var(--accent-glow-sm);
+}
+
+.cap-progress-bar.is-running {
+  animation: cap-progress-run 5.5s linear forwards;
+}
+
+.cap-progress-bar.is-paused {
+  animation-play-state: paused;
+}
+
+@keyframes cap-progress-run {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.cap-card {
+  position: absolute;
+  overflow: hidden;
+  background-color: var(--bg-surface);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  transition:
+    top 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    left 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 500ms ease;
+  border: 0;
+  padding: 0;
+  cursor: default;
+}
+
+.cap-card.is-stack {
+  cursor: pointer;
+}
+
+.cap-card.is-stack:hover,
+.cap-card.is-stack:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+}
+
+.cap-card-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(7, 8, 11, 0.82) 0%,
+    rgba(7, 8, 11, 0.45) 42%,
+    rgba(7, 8, 11, 0.12) 70%,
+    transparent 100%
+  );
+  transition: opacity 400ms ease;
+}
+
+.cap-card.is-stack .cap-card-shade {
+  background: linear-gradient(180deg, transparent 35%, rgba(7, 8, 11, 0.88) 100%);
+}
+
+.cap-card-mini {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 12px;
+  z-index: 2;
+  text-align: left;
+  color: var(--text-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 350ms ease;
+}
+
+.cap-card.is-stack .cap-card-mini {
+  opacity: 1;
+}
+
+.cap-card-mini-bar {
+  width: 16px;
+  height: 2px;
+  border-radius: 99px;
+  background: #fff;
+  margin-bottom: 6px;
+}
+
+.cap-card-mini-kicker {
+  font-size: 0.62rem;
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.cap-card-mini-title {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.cap-overlay {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: min(42%, 460px);
+  padding: 2.5rem 0 5.5rem 2.25rem;
+  pointer-events: none;
+  color: var(--text-primary);
+}
+
+.cap-overlay-inner {
+  pointer-events: auto;
+  animation: cap-fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes cap-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cap-overlay-kicker {
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+
+.cap-overlay-rule {
+  width: 18px;
+  height: 2px;
+  background: #fff;
+  border-radius: 99px;
+  margin-bottom: 0.75rem;
+}
+
+.cap-overlay h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0;
+  color: #fff;
+}
+
+.cap-overlay-desc {
+  margin-top: 1rem;
+  max-width: 22rem;
+  color: rgba(243, 245, 248, 0.88);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.cap-overlay-cta {
+  margin-top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.7rem 1.35rem;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.cap-overlay-cta:hover,
+.cap-overlay-cta:focus-visible {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--text-inverse);
+}
+
+.cap-controls {
+  position: absolute;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  left: 2.25rem;
+  bottom: 1.25rem;
+}
+
+.cap-nav-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(7, 8, 11, 0.55);
+  color: #fff;
+  cursor: pointer;
+  transition: border-color 200ms ease, background 200ms ease, color 200ms ease;
+}
+
+.cap-nav-btn:hover,
+.cap-nav-btn:focus-visible {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: rgba(0, 229, 255, 0.08);
+}
+
+.cap-pager {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.cap-pager-track {
+  width: 72px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.cap-pager-fill {
+  height: 100%;
+  background: var(--accent-primary);
+  transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cap-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .cap-stage {
+    display: none;
+  }
+
+  .cap-mobile {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cap-mobile-card {
+    flex: 0 0 82vw;
+    max-width: 340px;
+    min-height: 420px;
+    scroll-snap-align: start;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-subtle);
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .cap-mobile-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(7, 8, 11, 0.15) 20%, rgba(7, 8, 11, 0.92) 100%);
+  }
+
+  .cap-mobile-body {
+    position: relative;
+    z-index: 1;
+    padding: 1.35rem 1.25rem 1.5rem;
+  }
+
+  .cap-mobile-body .cap-overlay-kicker {
+    font-size: 0.72rem;
+  }
+
+  .cap-mobile-body h3 {
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    line-height: 1.15;
+    margin: 0.15rem 0 0.65rem;
+    color: #fff;
+  }
+
+  .cap-mobile-body p {
+    color: rgba(243, 245, 248, 0.85);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin: 0 0 0.9rem;
+  }
+
+  .cap-mobile-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cap-progress-bar.is-running {
+    animation: none;
+    transform: scaleX(1);
+  }
+
+  .cap-card {
+    transition: none;
+  }
+
+  .cap-overlay-inner {
+    animation: none;
+  }
+}

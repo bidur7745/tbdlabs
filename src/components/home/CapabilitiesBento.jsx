@@ -1,255 +1,285 @@
-import { Globe, Smartphone, Cpu, Layout, Layers, ArrowUpRight, Sparkles } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { CAPABILITIES } from '../../content/capabilities.js';
+import '../../styles/capabilities-carousel.css';
+
+const INTERVAL_MS = 5500;
+const CARD_W = 168;
+const CARD_H = 248;
+const CARD_GAP = 16;
+const STACK_PAD = 28;
+const STACK_BOTTOM = 18;
+
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(query).matches : false
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const onChange = (event) => setMatches(event.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, [query]);
+
+  return matches;
+}
+
+function cardLayout(indexInOrder, geom, count) {
+  if (indexInOrder === 0) {
+    return {
+      top: 0,
+      left: 0,
+      width: geom.w,
+      height: geom.h,
+      borderRadius: 0,
+      zIndex: 2,
+    };
+  }
+
+  const stackIndex = indexInOrder - 1;
+  const visibleCount = Math.min(3, count);
+  const stackCount = Math.max(visibleCount - 1, 0);
+  const stackWidth = stackCount * CARD_W + Math.max(0, stackCount - 1) * CARD_GAP;
+  const left = Math.max(
+    geom.w * 0.52,
+    geom.w - STACK_PAD - stackWidth + stackIndex * (CARD_W + CARD_GAP)
+  );
+
+  return {
+    top: geom.h - CARD_H - STACK_BOTTOM,
+    left,
+    width: CARD_W,
+    height: CARD_H,
+    borderRadius: 10,
+    zIndex: 20 + stackIndex,
+  };
+}
 
 export function CapabilitiesBento({ navigate }) {
+  const n = CAPABILITIES.length;
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+
+  const stageRef = useRef(null);
+  const [geom, setGeom] = useState({ w: 1168, h: 600 });
+  const [order, setOrder] = useState(() => CAPABILITIES.map((_, i) => i));
+  const [paused, setPaused] = useState(false);
+  const [progressKey, setProgressKey] = useState(0);
+
+  const activeIndex = order[0] ?? 0;
+  const active = CAPABILITIES[activeIndex];
+  const visibleOrder = order.slice(0, 3);
+
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return undefined;
+
+    const measure = () => setGeom({ w: el.offsetWidth, h: el.offsetHeight });
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  const goNext = useCallback(() => {
+    setOrder((current) => [...current.slice(1), current[0]]);
+    setProgressKey((key) => key + 1);
+  }, []);
+
+  const goPrev = useCallback(() => {
+    setOrder((current) => {
+      const last = current[current.length - 1];
+      return [last, ...current.slice(0, -1)];
+    });
+    setProgressKey((key) => key + 1);
+  }, []);
+
+  const goTo = useCallback((target) => {
+    setOrder((current) => {
+      const at = current.indexOf(target);
+      if (at <= 0) return current;
+      return [...current.slice(at), ...current.slice(0, at)];
+    });
+    setProgressKey((key) => key + 1);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile || reduceMotion || paused) return undefined;
+
+    const id = window.setTimeout(() => {
+      setOrder((current) => [...current.slice(1), current[0]]);
+      setProgressKey((key) => key + 1);
+    }, INTERVAL_MS);
+
+    return () => window.clearTimeout(id);
+  }, [activeIndex, isMobile, reduceMotion, paused, progressKey]);
+
+  useEffect(() => {
+    const onVisibility = () => setPaused(document.hidden);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      goNext();
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      goPrev();
+    }
+  };
+
+  const handleCta = (event, href) => {
+    event.preventDefault();
+    event.stopPropagation();
+    navigate(href);
+  };
 
   return (
-    <section className="section" aria-labelledby="capabilities-heading">
+    <section className="cap-section section" aria-labelledby="capabilities-heading">
       <div className="container">
-        <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 3.5rem' }}>
-          <span style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            padding: '0.3rem 0.9rem', borderRadius: '9999px',
-            border: '1px solid rgba(0,229,255,0.25)', background: 'rgba(0,229,255,0.06)',
-            color: '#00e5ff', fontSize: '0.78rem', fontFamily: 'JetBrains Mono, monospace',
-            letterSpacing: '0.06em', marginBottom: '1rem',
-          }}>
-            <Sparkles size={12} /> Engineering Disciplines
+        <div className="cap-intro">
+          <span className="cap-eyebrow">
+            <Sparkles size={12} aria-hidden="true" /> Engineering Disciplines
           </span>
-          <h2 id="capabilities-heading" style={{ marginBottom: '1rem' }}>
-            Built for modern digital scale
-          </h2>
-          <p style={{ color: '#9aa1b2', fontSize: '1rem', lineHeight: 1.7 }}>
+          <h2 id="capabilities-heading">Built for modern digital scale</h2>
+          <p>
             We combine systems programming discipline with modern UI engineering to deliver resilient, production-ready platforms.
           </p>
         </div>
 
-        {/* Bento Grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(12, 1fr)',
-            gap: '1.5rem',
-          }}
-        >
-          {/* Card 1: Web Systems (Spans 7 cols) */}
-          <div
-            onClick={() => navigate('/services')}
-            style={{
-              gridColumn: 'span 12',
-              borderRadius: '20px',
-              padding: '2rem',
-              background: 'linear-gradient(135deg, rgba(14, 18, 28, 0.9) 0%, rgba(9, 11, 17, 0.95) 100%)',
-              border: '1px solid rgba(0, 229, 255, 0.2)',
-              cursor: 'pointer',
-              position: 'relative',
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              minHeight: '320px',
-              transition: 'all 250ms ease',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,229,255,0.45)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(0,229,255,0.2)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(0,229,255,0.1)', border: '1px solid rgba(0,229,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00e5ff' }}>
-                  <Globe size={22} />
+        {isMobile ? (
+          <div className="cap-mobile" aria-label="Capabilities">
+            {CAPABILITIES.map((item) => (
+              <a
+                key={item.id}
+                href={item.href}
+                className="cap-mobile-card"
+                style={{ backgroundImage: `url(${item.image})` }}
+                onClick={(event) => handleCta(event, item.href)}
+              >
+                <div className="cap-mobile-shade" aria-hidden="true" />
+                <div className="cap-mobile-body">
+                  <div className="cap-overlay-kicker">{item.eyebrow}</div>
+                  <h3>
+                    {item.title}
+                    <br />
+                    {item.title2}
+                  </h3>
+                  <p>{item.description}</p>
+                  <span className="cap-mobile-cta">
+                    View services <ArrowRight size={14} aria-hidden="true" />
+                  </span>
                 </div>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontFamily: 'Space Grotesk, sans-serif', color: '#fff', margin: 0 }}>Web & Full-Stack Systems</h3>
-                  <span style={{ color: '#61687a', fontSize: '0.8rem', fontFamily: 'JetBrains Mono, monospace' }}>React · Next.js · TypeScript · FastAPI</span>
-                </div>
-              </div>
-              <ArrowUpRight size={18} color="#00e5ff" />
-            </div>
-
-            <p style={{ color: '#9aa1b2', fontSize: '0.9rem', lineHeight: 1.65, maxWidth: '540px', marginBottom: '1.5rem' }}>
-              High-performance web applications built on reactive component architectures, server-rendered edge pipelines, and type-safe backend APIs.
-            </p>
-
-            {/* Visual Simulated Component Frame */}
-            <div
-              style={{
-                borderRadius: '10px',
-                border: '1px solid rgba(255,255,255,0.08)',
-                background: 'rgba(0,0,0,0.4)',
-                padding: '1rem',
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '0.78rem',
-              }}
-            >
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '0.75rem', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '0.5rem' }}>
-                <span style={{ color: '#00e5ff' }}>✓ Edge CDN Ready</span>
-                <span style={{ color: '#10b981' }}>✓ 100% Type-Safe</span>
-                <span style={{ color: '#ffbd2e' }}>✓ Zero Cumulative Layout Shift</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#61687a' }}>
-                <span>Build output: static/chunks/app-core.js</span>
-                <span style={{ color: '#10b981' }}>Optimized gzip: 24.2 kB</span>
-              </div>
-            </div>
+              </a>
+            ))}
           </div>
-
-          {/* Card 2: AI & Machine Learning (Spans 5 cols) */}
+        ) : (
           <div
-            onClick={() => navigate('/services')}
-            style={{
-              gridColumn: 'span 12',
-              borderRadius: '20px',
-              padding: '2rem',
-              background: 'linear-gradient(135deg, rgba(20, 16, 32, 0.9) 0%, rgba(9, 10, 16, 0.95) 100%)',
-              border: '1px solid rgba(168, 85, 247, 0.25)',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              minHeight: '320px',
-              transition: 'all 250ms ease',
+            ref={stageRef}
+            className="cap-stage"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Engineering capabilities"
+            tabIndex={0}
+            onKeyDown={handleKeyDown}
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocus={() => setPaused(true)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.5)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.25)'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(168, 85, 247, 0.12)', border: '1px solid rgba(168, 85, 247, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c084fc' }}>
-                  <Cpu size={22} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontFamily: 'Space Grotesk, sans-serif', color: '#fff', margin: 0 }}>Applied AI & ML</h3>
-                  <span style={{ color: '#61687a', fontSize: '0.8rem', fontFamily: 'JetBrains Mono, monospace' }}>PyTorch · Inference · LLM Pipelines</span>
-                </div>
+            <div className="cap-progress" aria-hidden="true">
+              <span
+                key={progressKey}
+                className={`cap-progress-bar${!reduceMotion ? ' is-running' : ''}${paused ? ' is-paused' : ''}`}
+              />
+            </div>
+
+            {visibleOrder.map((itemIndex) => {
+              const item = CAPABILITIES[itemIndex];
+              const indexInOrder = visibleOrder.indexOf(itemIndex);
+              const layout = cardLayout(indexInOrder, geom, visibleOrder.length);
+              const isActive = indexInOrder === 0;
+
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`cap-card${isActive ? ' is-active' : ' is-stack'}`}
+                  style={{
+                    top: layout.top,
+                    left: layout.left,
+                    width: layout.width,
+                    height: layout.height,
+                    borderRadius: layout.borderRadius,
+                    zIndex: layout.zIndex,
+                    backgroundImage: `url(${item.image})`,
+                  }}
+                  tabIndex={isActive ? -1 : 0}
+                  aria-label={isActive ? undefined : `Show ${item.title} ${item.title2}`}
+                  aria-hidden={isActive ? true : undefined}
+                  disabled={isActive}
+                  onClick={() => {
+                    if (!isActive) goTo(itemIndex);
+                  }}
+                >
+                  <span className="cap-card-shade" />
+                  <span className="cap-card-mini">
+                    <span className="cap-card-mini-bar" />
+                    <span className="cap-card-mini-kicker">{item.eyebrow}</span>
+                    <span className="cap-card-mini-title">
+                      {item.title} {item.title2}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+
+            <div className="cap-overlay">
+              <div key={active.id} className="cap-overlay-inner">
+                <div className="cap-overlay-kicker">{active.eyebrow}</div>
+                <div className="cap-overlay-rule" aria-hidden="true" />
+                <h3>
+                  {active.title}
+                  <br />
+                  {active.title2}
+                </h3>
+                <p className="cap-overlay-desc">{active.description}</p>
+                <button
+                  type="button"
+                  className="cap-overlay-cta"
+                  onClick={(event) => handleCta(event, active.href)}
+                >
+                  View services <ArrowRight size={14} aria-hidden="true" />
+                </button>
               </div>
-              <ArrowUpRight size={18} color="#c084fc" />
             </div>
 
-            <p style={{ color: '#9aa1b2', fontSize: '0.9rem', lineHeight: 1.65, marginBottom: '1.5rem' }}>
-              Deterministic neural workflows, computer vision forensic filters, and LLM reasoning pipelines built for high precision.
-            </p>
-
-            {/* Visual Confidence Gauge */}
-            <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: '10px', padding: '0.85rem', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '6px' }}>
-                <span style={{ color: '#c084fc' }}>Model Precision Index</span>
-                <span style={{ color: '#fff' }}>98.7%</span>
+            <div className="cap-controls">
+              <button type="button" className="cap-nav-btn" aria-label="Previous capability" onClick={goPrev}>
+                <ChevronLeft size={16} aria-hidden="true" />
+              </button>
+              <button type="button" className="cap-nav-btn" aria-label="Next capability" onClick={goNext}>
+                <ChevronRight size={16} aria-hidden="true" />
+              </button>
+              <div className="cap-pager" aria-hidden="true">
+                <span>{String(activeIndex + 1).padStart(2, '0')}</span>
+                <span className="cap-pager-track">
+                  <span
+                    className="cap-pager-fill"
+                    style={{ width: `${((activeIndex + 1) / n) * 100}%` }}
+                  />
+                </span>
+                <span>{String(n).padStart(2, '0')}</span>
               </div>
-              <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
-                <div style={{ width: '98.7%', height: '100%', background: 'linear-gradient(90deg, #a855f7, #00e5ff)', borderRadius: '3px' }} />
-              </div>
             </div>
           </div>
-
-          {/* Card 3: Mobile Engineering (Spans 4 cols) */}
-          <div
-            onClick={() => navigate('/services')}
-            style={{
-              gridColumn: 'span 12',
-              borderRadius: '20px',
-              padding: '1.75rem',
-              background: 'rgba(14, 17, 24, 0.8)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              minHeight: '260px',
-              transition: 'all 250ms ease',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,229,255,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
-              <Smartphone size={20} color="#00e5ff" />
-              <h3 style={{ fontSize: '1.1rem', fontFamily: 'Space Grotesk, sans-serif', color: '#fff', margin: 0 }}>Mobile Development</h3>
-            </div>
-            <p style={{ color: '#9aa1b2', fontSize: '0.85rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
-              Native performance and offline-first mobile apps for Android and iOS with fluid touch gestures.
-            </p>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.72rem', color: '#00e5ff', background: 'rgba(0,229,255,0.08)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontFamily: 'JetBrains Mono' }}>React Native</span>
-              <span style={{ fontSize: '0.72rem', color: '#9aa1b2', background: 'rgba(255,255,255,0.04)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontFamily: 'JetBrains Mono' }}>Offline Sync</span>
-            </div>
-          </div>
-
-          {/* Card 4: UI/UX & Design Systems (Spans 4 cols) */}
-          <div
-            onClick={() => navigate('/services')}
-            style={{
-              gridColumn: 'span 12',
-              borderRadius: '20px',
-              padding: '1.75rem',
-              background: 'rgba(14, 17, 24, 0.8)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              minHeight: '260px',
-              transition: 'all 250ms ease',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,229,255,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
-              <Layout size={20} color="#00e5ff" />
-              <h3 style={{ fontSize: '1.1rem', fontFamily: 'Space Grotesk, sans-serif', color: '#fff', margin: 0 }}>UI/UX & Design Systems</h3>
-            </div>
-            <p style={{ color: '#9aa1b2', fontSize: '0.85rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
-              Atomic tokens, accessible color palettes, and interaction design aligned with WCAG 2.1 AA.
-            </p>
-            {/* Visual Token Palette Preview */}
-            <div style={{ display: 'flex', gap: '6px' }}>
-              <div style={{ width: 22, height: 22, borderRadius: 6, background: '#08090d', border: '1px solid rgba(255,255,255,0.2)' }} title="Canvas" />
-              <div style={{ width: 22, height: 22, borderRadius: 6, background: '#141722', border: '1px solid rgba(255,255,255,0.2)' }} title="Card Surface" />
-              <div style={{ width: 22, height: 22, borderRadius: 6, background: '#00e5ff' }} title="Electric Cyan" />
-              <div style={{ width: 22, height: 22, borderRadius: 6, background: '#0077b6' }} title="Deep Cobalt" />
-            </div>
-          </div>
-
-          {/* Card 5: Cloud & Backend Architecture (Spans 4 cols) */}
-          <div
-            onClick={() => navigate('/services')}
-            style={{
-              gridColumn: 'span 12',
-              borderRadius: '20px',
-              padding: '1.75rem',
-              background: 'rgba(14, 17, 24, 0.8)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              minHeight: '260px',
-              transition: 'all 250ms ease',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,229,255,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
-              <Layers size={20} color="#00e5ff" />
-              <h3 style={{ fontSize: '1.1rem', fontFamily: 'Space Grotesk, sans-serif', color: '#fff', margin: 0 }}>Cloud & Resilient DBs</h3>
-            </div>
-            <p style={{ color: '#9aa1b2', fontSize: '0.85rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
-              PostgreSQL relational schemas, Redis caching, Docker container orchestration, and multi-region deployment.
-            </p>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.72rem', color: '#10b981', background: 'rgba(16,185,129,0.1)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontFamily: 'JetBrains Mono' }}>Docker</span>
-              <span style={{ fontSize: '0.72rem', color: '#00e5ff', background: 'rgba(0,229,255,0.08)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontFamily: 'JetBrains Mono' }}>PostgreSQL</span>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
-
-      <style>{`
-        @media (min-width: 900px) {
-          .section .container > div:nth-child(2) > div:nth-child(1) { grid-column: span 7 !important; }
-          .section .container > div:nth-child(2) > div:nth-child(2) { grid-column: span 5 !important; }
-          .section .container > div:nth-child(2) > div:nth-child(3) { grid-column: span 4 !important; }
-          .section .container > div:nth-child(2) > div:nth-child(4) { grid-column: span 4 !important; }
-          .section .container > div:nth-child(2) > div:nth-child(5) { grid-column: span 4 !important; }
-        }
-      `}</style>
     </section>
   );
 }
