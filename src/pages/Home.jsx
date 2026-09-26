@@ -1,9 +1,6 @@
 import { ArrowRight, ChevronRight, Sparkles } from 'lucide-react';
-import { SectionHeading } from '../components/ui/SectionHeading.jsx';
-import { PROJECTS } from '../content/projects.js';
 import { HeroVisual } from '../components/home/HeroVisual.jsx';
 import { CapabilitiesBento } from '../components/home/CapabilitiesBento.jsx';
-import { ProjectMockupCard } from '../components/home/ProjectMockupCard.jsx';
 import { WorkflowCircuit } from '../components/home/WorkflowCircuit.jsx';
 import { TechStripVisual } from '../components/home/TechStripVisual.jsx';
 
@@ -114,15 +111,15 @@ function HeroSection({ navigate }) {
                 Start a conversation <ArrowRight size={15} aria-hidden="true" />
               </a>
               <a
-                href="/projects"
+                href="/technology"
                 className="btn btn-secondary"
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate('/projects');
+                  navigate('/technology');
                 }}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
               >
-                Explore our work <ChevronRight size={15} aria-hidden="true" />
+                Explore our capabilities <ChevronRight size={15} aria-hidden="true" />
               </a>
             </div>
 
@@ -151,39 +148,6 @@ function HeroSection({ navigate }) {
           <div>
             <HeroVisual />
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FeaturedProjects({ navigate }) {
-  return (
-    <section className="section" aria-labelledby="projects-heading" style={{ backgroundColor: 'rgba(13,15,22,0.6)' }}>
-      <div className="container">
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '3rem' }}>
-          <SectionHeading
-            eyebrow="Selected work"
-            title="Systems we've engineered"
-            subtitle="Real software products and AI engines built to solve genuine domain challenges."
-          />
-          <a
-            href="/projects"
-            className="btn btn-ghost"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate('/projects');
-            }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem', whiteSpace: 'nowrap', flexShrink: 0 }}
-          >
-            View all projects <ArrowRight size={14} aria-hidden="true" />
-          </a>
-        </div>
-
-        <div className="grid-cols-3">
-          {PROJECTS.map((project) => (
-            <ProjectMockupCard key={project.id} project={project} navigate={navigate} />
-          ))}
         </div>
       </div>
     </section>
@@ -283,7 +247,6 @@ export default function Home({ navigate }) {
     <main id="main-content">
       <HeroSection navigate={navigate} />
       <CapabilitiesBento navigate={navigate} />
-      <FeaturedProjects navigate={navigate} />
       <WorkflowCircuit />
       <TechStripVisual />
       <InquiryBanner navigate={navigate} />

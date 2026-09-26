@@ -5,9 +5,9 @@ import { Button } from '../ui/Button.jsx';
 const NAV_LINKS = [
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
-  { label: 'Projects', href: '/projects' },
   { label: 'Technology', href: '/technology' },
   { label: 'Insights', href: '/insights' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export function Navbar({ currentPath, navigate }) {
@@ -150,7 +150,7 @@ export function Navbar({ currentPath, navigate }) {
             gap: '8px',
           }}
         >
-          {[{ label: 'Home', href: '/' }, ...NAV_LINKS, { label: 'Contact', href: '/contact' }].map((link) => (
+          {[{ label: 'Home', href: '/' }, ...NAV_LINKS].map((link) => (
             <a
               key={link.href}
               href={link.href}

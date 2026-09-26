@@ -4,7 +4,6 @@ import { Footer } from './components/layout/Footer.jsx';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Services from './pages/Services.jsx';
-import Projects from './pages/Projects.jsx';
 import Technology from './pages/Technology.jsx';
 import Insights from './pages/Insights.jsx';
 import Contact from './pages/Contact.jsx';
@@ -16,7 +15,6 @@ function renderPage(path, navigate) {
     case '/':          return <Home navigate={navigate} />;
     case '/about':     return <About navigate={navigate} />;
     case '/services':  return <Services navigate={navigate} />;
-    case '/projects':  return <Projects navigate={navigate} />;
     case '/technology': return <Technology navigate={navigate} />;
     case '/insights':  return <Insights navigate={navigate} />;
     case '/contact':   return <Contact navigate={navigate} />;

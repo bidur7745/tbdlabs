@@ -1,6 +1,7 @@
 import { ArrowRight, Target, Eye, Heart } from 'lucide-react';
 import { SectionHeading } from '../components/ui/SectionHeading.jsx';
 import { TEAM_MEMBERS } from '../content/team.js';
+import bidurImage from '../assets/founder/bidur.jpg';
 
 const CORE_VALUES = [
   { icon: Target, title: 'Engineering Integrity', description: 'We write honest code that reflects the actual complexity of the problem — no shortcuts that create technical debt, no fabricated benchmarks.' },
@@ -82,25 +83,39 @@ export default function About({ navigate }) {
             id="team-heading"
           />
           <div className="grid-cols-3" style={{ marginTop: '3rem' }}>
-            {TEAM_MEMBERS.map((member) => (
-              <article key={member.id} className="card" style={{ textAlign: 'center' }} aria-label={member.name}>
-                <div style={{
-                  width: 80, height: 80, borderRadius: '50%',
-                  background: 'linear-gradient(135deg, rgba(0,229,255,0.15), rgba(0,180,216,0.05))',
-                  border: '2px solid rgba(0,229,255,0.25)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  margin: '0 auto 1.5rem',
-                  fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.75rem', fontWeight: 700,
-                  color: '#00e5ff',
-                }}>
-                  {member.initials}
-                </div>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.35rem' }}>{member.name}</h3>
-                <p style={{ color: '#00e5ff', fontSize: '0.8rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '0.35rem' }}>{member.role}</p>
-                <p style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '1.25rem' }}>{member.focus}</p>
-                <p style={{ color: '#9aa1b2', fontSize: '0.875rem', lineHeight: 1.7, margin: 0 }}>{member.bio}</p>
-              </article>
-            ))}
+            {TEAM_MEMBERS.map((member) => {
+              const imageSrc = member.id === 'bidur' ? bidurImage : null;
+
+              return (
+                <article key={member.id} className="card" style={{ textAlign: 'center' }} aria-label={member.name}>
+                  {imageSrc ? (
+                    <div style={{ width: 120, height: 120, margin: '0 auto 1.5rem', borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(0,229,255,0.25)', boxShadow: '0 0 0 8px rgba(0,229,255,0.05)' }}>
+                      <img
+                        src={imageSrc}
+                        alt={member.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    </div>
+                  ) : (
+                    <div style={{
+                      width: 80, height: 80, borderRadius: '50%',
+                      background: 'linear-gradient(135deg, rgba(0,229,255,0.15), rgba(0,180,216,0.05))',
+                      border: '2px solid rgba(0,229,255,0.25)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      margin: '0 auto 1.5rem',
+                      fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.75rem', fontWeight: 700,
+                      color: '#00e5ff',
+                    }}>
+                      {member.initials}
+                    </div>
+                  )}
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.35rem' }}>{member.name}</h3>
+                  <p style={{ color: '#00e5ff', fontSize: '0.8rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '0.35rem' }}>{member.role}</p>
+                  <p style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '1.25rem' }}>{member.focus}</p>
+                  <p style={{ color: '#9aa1b2', fontSize: '0.875rem', lineHeight: 1.7, margin: 0 }}>{member.bio}</p>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

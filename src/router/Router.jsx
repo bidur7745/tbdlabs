@@ -14,10 +14,6 @@ const ROUTES_META = {
     title: 'Services — TBD Labs',
     description: 'Web development, mobile engineering, AI & machine learning, UI/UX design, and digital solutions engineered to production grade by TBD Labs.'
   },
-  '/projects': {
-    title: 'Projects — TBD Labs',
-    description: 'Explore selected systems and platforms built by TBD Labs: KrishiMitra, BhramGuard, AutoRent, and more.'
-  },
   '/technology': {
     title: 'Technology — TBD Labs',
     description: 'Our engineering stack: React, Next.js, Python, FastAPI, PyTorch, PostgreSQL, Docker. Organized by capability and engineering principle.'

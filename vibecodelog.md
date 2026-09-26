@@ -126,4 +126,29 @@ To ensure consistency, accountability, and traceability across the entire vibe-c
 - **Next Recommended Step (PROMPT-002):**
   - Create `AGENTS.md` and establish the global design system (CSS variables, dark color palette, typography, button/card primitives) and client routing structure for the 7 pages.
 
+### [PROMPT-002] | 2026-09-26 00:00 — Remove Featured Project Section from Home
+
+- **Prompt:**
+  > `from home page remove the component which display selected project or system we engineered`
+
+- **Intent & Scope:**
+  - Remove the featured project showcase block from the home page while preserving the rest of the landing page and project detail route.
+  - Keep the homepage focused on the hero, capability overview, workflow, tech strip, and inquiry call-to-action.
+
+- **Actions Taken:**
+  - Updated `src/pages/Home.jsx` to remove the `FeaturedProjects` section and its associated imports.
+  - Kept the homepage structure intact by retaining the hero, capabilities, workflow, technology strip, and contact CTA.
+
+- **Decisions & Compliance:**
+  - This change aligns with the user request to remove the selected-work component from the primary landing page without removing the dedicated projects page.
+  - No fabricated project claims were introduced.
+
+- **Verification & QA:**
+  - Build and lint checks will be run from `d:\tbd labs\tbdlabsfrontend` after the patch.
+
+- **Status:** **Completed**
+
+- **Next Logical Step:**
+  - If desired, the same home page can later be reworked with a different storytelling section without reintroducing the selected-project tiles.
+
 ---
