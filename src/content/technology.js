@@ -1,70 +1,78 @@
 /**
  * TBD Labs — Technology Directory
- * Technologies and Engineering Principles per Codex Website Development Guide:
- * "Present the stack by capability rather than as a giant logo wall.
- * Use verified technologies only and keep the content easy to edit.
- * Include frontend, backend, data, AI/ML, and cloud/devops categories,
- * plus a short engineering-principles section."
+ * This content reflects the actual engineering capabilities we work with,
+ * including enterprise and business application stacks, APIs, and CMS-based solutions.
  */
+
+import { STACK_ASSETS } from './stackAssets.js';
 
 export const TECH_CATEGORIES = [
   {
     id: 'frontend',
     category: 'Frontend Engineering',
-    description: 'Modern, resilient client-side environments built for speed, accessibility, and smooth user interaction.',
+    description: 'Modern web experiences for business products, dashboards, portals, and conversion-focused interfaces.',
     technologies: [
-      { name: 'React', description: 'Declarative component-driven interfaces' },
-      { name: 'Next.js', description: 'Server-rendered and hybrid web applications' },
-      { name: 'TypeScript', description: 'Static type safety and developer maintainability' },
-      { name: 'Vite', description: 'Lightning-fast modern build tooling' },
-      { name: 'Tailwind CSS', description: 'Utility-first modular design systems' },
-      { name: 'Vanilla CSS / Tokens', description: 'Pure CSS properties and native browser efficiency' }
+      { name: 'React', assetKey: 'react', description: 'Component-driven interfaces and responsive product UI' },
+      { name: 'Next.js', assetKey: 'nextjs', description: 'SEO-friendly and performance-conscious web apps' },
+      { name: 'TypeScript', assetKey: 'typescript', description: 'Safer application code and maintainable architecture' },
+      { name: 'Vite', assetKey: 'vite', description: 'Fast local development and modern build workflows' },
+      { name: 'JavaScript', assetKey: 'nodejs', description: 'Browser logic and interactive client behaviors' }
     ]
   },
   {
     id: 'backend',
     category: 'Backend & APIs',
-    description: 'High-throughput microservices and robust RESTful/GraphQL application layers.',
+    description: 'Robust server-side systems, business logic layers, and API integrations built for reliability.',
     technologies: [
-      { name: 'Node.js', description: 'Event-driven, asynchronous JavaScript runtime' },
-      { name: 'Express', description: 'Minimalist web server and REST routing framework' },
-      { name: 'Python', description: 'General software automation and computational backend' },
-      { name: 'FastAPI', description: 'High-performance async Python APIs with automatic OpenAPI schema' }
+      { name: 'Django', assetKey: 'django', description: 'Rapid backend development with a structured MVC approach' },
+      { name: 'ASP.NET Web API', assetKey: 'aspnet', description: 'Scalable enterprise APIs and service integrations' },
+      { name: 'C# / .NET', assetKey: 'csharp', description: 'Strongly typed business systems and API services' },
+      { name: 'Java / Spring Boot', assetKey: 'springboot', description: 'Enterprise backend services and RESTful APIs' },
+      { name: 'Express.js', assetKey: 'express', description: 'Lightweight APIs and small application backends' },
+      { name: 'Python', assetKey: 'python', description: 'Automation, scripting, and data-oriented application logic' },
+      { name: 'FastAPI', assetKey: 'fastapi', description: 'High-performance async APIs for modern services' }
     ]
   },
   {
     id: 'data',
     category: 'Data & Storage',
-    description: 'Reliable relational schema design, caching strategies, and persistent storage layers.',
+    description: 'Reliable persistence layers, structured data modeling, and real-world application storage needs.',
     technologies: [
-      { name: 'PostgreSQL', description: 'ACID-compliant relational database with rich indexing' },
-      { name: 'MongoDB', description: 'Flexible document storage for unstructured payloads' },
-      { name: 'Redis', description: 'In-memory key-value caching and session state management' }
+      { name: 'PostgreSQL', assetKey: 'postgresql', description: 'Relational data stores for transactional business systems' },
+      { name: 'MySQL', assetKey: 'mysql', description: 'Wide adoption for web apps and internal platform data' },
+      { name: 'MongoDB', assetKey: 'mongodb', description: 'Flexible document storage for dynamic application records' },
+      { name: 'Redis', assetKey: 'redis', description: 'Caching, session handling, and fast response optimization' }
     ]
   },
   {
-    id: 'ai-ml',
-    category: 'AI & Machine Learning',
-    description: 'Practical data science pipelines, deep learning models, and intelligent language interfaces.',
+    id: 'cms-management',
+    category: 'Content & Website Platforms',
+    description: 'Practical and business-friendly platform work, including drag-and-drop and CMS-based solutions.',
     technologies: [
-      { name: 'PyTorch', description: 'Deep learning research and computer vision pipelines' },
-      { name: 'Hugging Face', description: 'Transformer model architectures and pre-trained weights' },
-      { name: 'LLM APIs', description: 'Generative AI integrations and RAG query parsing' },
-      { name: 'NumPy / Pandas', description: 'Scientific computing and structured data manipulation' }
+      { name: 'WordPress', assetKey: 'wordpress', description: 'Content-driven sites, blogs, and marketing platforms' },
+      { name: 'Wix', assetKey: 'wix', description: 'Fast deployment for lightweight site and business presence needs' },
+      { name: 'Custom CMS Integrations', assetKey: 'react', description: 'Tailored admin experiences mixed with custom business logic' }
     ]
   },
   {
     id: 'devops-cloud',
-    category: 'Cloud & Infrastructure',
-    description: 'Containerized deployment pipelines, edge distribution, and continuous integration workflows.',
+    category: 'Cloud & Deployment',
+    description: 'Containerized deployment, automation, and hosting approaches that keep systems operational and maintainable.',
     technologies: [
-      { name: 'Docker', description: 'Reproducible containerized runtimes and service isolation' },
-      { name: 'Vercel / Cloud Edge', description: 'Zero-config serverless deployments and edge caching' },
-      { name: 'GitHub Actions', description: 'Automated test execution, linting, and build gates' },
-      { name: 'Linux / Ubuntu', description: 'Reliable server environments and systems management' }
+      { name: 'Docker', assetKey: 'docker', description: 'Consistent runtime environments and service isolation' },
+      { name: 'GitHub Actions', assetKey: 'githubactions', description: 'Automated verification, build checks, and CI workflows' },
+      { name: 'Linux / Ubuntu', assetKey: 'linux', description: 'Stable hosting environments and system administration' },
+      { name: 'Azure / Cloud Hosting', assetKey: 'dotnet', description: 'Deployment support for cloud-native web and API systems' }
     ]
   }
-];
+].map((category) => ({
+  ...category,
+  technologies: category.technologies.map((tech) => ({
+    ...tech,
+    iconUrl: STACK_ASSETS[tech.assetKey]?.iconUrl ?? STACK_ASSETS.react.iconUrl,
+    docsUrl: STACK_ASSETS[tech.assetKey]?.docsUrl ?? STACK_ASSETS.react.docsUrl,
+  })),
+}));
 
 export const ENGINEERING_PRINCIPLES = [
   {
