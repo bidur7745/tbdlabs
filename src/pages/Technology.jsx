@@ -1,5 +1,6 @@
 import { ArrowRight, Wrench, ShieldCheck, CheckCircle2, Zap, Eye } from 'lucide-react';
 import { SectionHeading } from '../components/ui/SectionHeading.jsx';
+import { TechHeroVisual } from '../components/technology/TechHeroVisual.jsx';
 import { TECH_CATEGORIES, ENGINEERING_PRINCIPLES } from '../content/technology.js';
 
 const PRINCIPLE_ICONS = { Wrench, ShieldCheck, CheckCircle2, Zap, Eye };
@@ -10,14 +11,25 @@ export default function Technology({ navigate }) {
       <section style={{ paddingTop: '8.5rem', paddingBottom: '5rem', position: 'relative' }}>
         <div aria-hidden="true" style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '600px', height: '400px', background: 'radial-gradient(ellipse, rgba(0,229,255,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ maxWidth: '680px' }}>
-            <span style={{ display: 'inline-block', padding: '0.3rem 1rem', borderRadius: 9999, border: '1px solid rgba(0,229,255,0.25)', background: 'rgba(0,229,255,0.06)', color: '#00e5ff', fontSize: '0.78rem', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.06em', marginBottom: '1.5rem' }}>
-              Stack & principles
-            </span>
-            <h1 style={{ marginBottom: '1.25rem' }}>The technologies we build with</h1>
-            <p className="lead">
-              We work across modern web stacks, enterprise API platforms, database-driven systems, and low-code business solutions — choosing tools that fit the product, the team, and the operational reality.
-            </p>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '2rem',
+              alignItems: 'center',
+            }}
+          >
+            <div style={{ maxWidth: '680px' }}>
+              <span style={{ display: 'inline-block', padding: '0.3rem 1rem', borderRadius: 9999, border: '1px solid rgba(0,229,255,0.25)', background: 'rgba(0,229,255,0.06)', color: '#00e5ff', fontSize: '0.78rem', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.06em', marginBottom: '1.5rem' }}>
+                Stack & principles
+              </span>
+              <h1 style={{ marginBottom: '1.25rem' }}>The technologies we build with</h1>
+              <p className="lead">
+                We work across modern web stacks, enterprise API platforms, database-driven systems, and low-code business solutions — choosing tools that fit the product, the team, and the operational reality.
+              </p>
+            </div>
+
+            <TechHeroVisual />
           </div>
         </div>
       </section>
