@@ -36,3 +36,8 @@ build/
 
 # Windows OS Files (Added since you are using PowerShell)
 Thumbs.db
+
+# Internal Documentation & Agent Logs
+AGENTS.md
+vibecodelog.md
+*Codex Website Development Guide*.pdf
