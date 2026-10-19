@@ -1,4 +1,5 @@
 import { GitBranch, ExternalLink, Share2, Mail, ArrowRight } from 'lucide-react';
+import logoImg from '../../assets/img/logo.png';
 
 const FOOTER_LINKS = {
   Company: [
@@ -67,14 +68,7 @@ export function Footer({ navigate }) {
                 onClick={(e) => handleNav(e, '/')}
                 style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginBottom: '1rem' }}
               >
-                <svg width="28" height="28" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-                  <rect width="64" height="64" rx="12" fill="#08090d" />
-                  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="11.25" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-                  <path d="M16 20H48V28H36V46H28V28H16V20Z" fill="#00e5ff" />
-                </svg>
-                <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '1rem', color: '#f3f5f8' }}>
-                  TBD <span style={{ color: '#00e5ff' }}>Labs</span>
-                </span>
+                <img src={logoImg} alt="TBD Labs" height="120" style={{ width: 'auto' }} />
               </a>
               <p style={{ color: '#61687a', fontSize: '0.875rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
                 Technology Beyond Dimensions. Building production-grade software, intelligent systems, and scalable digital solutions.
@@ -144,6 +138,26 @@ export function Footer({ navigate }) {
           <p style={{ color: '#61687a', fontSize: '0.8rem', margin: 0 }}>
             © {new Date().getFullYear()} TBD Labs. All rights reserved.
           </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+            <a
+              href="/terms"
+              onClick={(e) => handleNav(e, '/terms')}
+              style={{ color: '#61687a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 150ms ease' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = '#9aa1b2'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = '#61687a'; }}
+            >
+              Terms & Conditions
+            </a>
+            <a
+              href="/privacy"
+              onClick={(e) => handleNav(e, '/privacy')}
+              style={{ color: '#61687a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 150ms ease' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = '#9aa1b2'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = '#61687a'; }}
+            >
+              Privacy Policy
+            </a>
+          </div>
           <p style={{ color: '#61687a', fontSize: '0.8rem', margin: 0, fontFamily: 'JetBrains Mono, monospace' }}>
             Technology Beyond Dimensions
           </p>

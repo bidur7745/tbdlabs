@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '../ui/Button.jsx';
+import logoImg from '../../assets/img/logo.png';
 
 const NAV_LINKS = [
   { label: 'About', href: '/about' },
@@ -60,14 +61,7 @@ export function Navbar({ currentPath, navigate }) {
               aria-label="TBD Labs — Home"
               style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
             >
-              <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="64" height="64" rx="12" fill="#08090d" />
-                <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="11.25" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-                <path d="M16 20H48V28H36V46H28V28H16V20Z" fill="#00e5ff" />
-              </svg>
-              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '1.125rem', color: '#f3f5f8', letterSpacing: '-0.01em' }}>
-                TBD <span style={{ color: '#00e5ff' }}>Labs</span>
-              </span>
+              <img src={logoImg} alt="TBD Labs" height="56" style={{ width: 'auto' }} />
             </a>
 
             {/* Desktop Nav */}

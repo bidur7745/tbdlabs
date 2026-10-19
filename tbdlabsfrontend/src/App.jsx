@@ -7,6 +7,8 @@ import Services from './pages/Services.jsx';
 import Technology from './pages/Technology.jsx';
 import Insights from './pages/Insights.jsx';
 import Contact from './pages/Contact.jsx';
+import Terms from './pages/Terms.jsx';
+import Privacy from './pages/Privacy.jsx';
 import NotFound from './pages/NotFound.jsx';
 import './styles/global.css';
 
@@ -18,6 +20,8 @@ function renderPage(path, navigate) {
     case '/technology': return <Technology navigate={navigate} />;
     case '/insights':  return <Insights navigate={navigate} />;
     case '/contact':   return <Contact navigate={navigate} />;
+    case '/terms':     return <Terms navigate={navigate} />;
+    case '/privacy':   return <Privacy navigate={navigate} />;
     default:           return <NotFound navigate={navigate} />;
   }
 }

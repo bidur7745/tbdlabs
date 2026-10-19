@@ -26,6 +26,14 @@ const ROUTES_META = {
     title: 'Contact TBD Labs — Start a Conversation',
     description: 'Start a project conversation with TBD Labs. Share your brief and we will respond with an honest assessment and next steps.'
   },
+  '/terms': {
+    title: 'Terms & Conditions — TBD Labs',
+    description: 'Terms and conditions governing the use of the TBD Labs website at tbdlabs.com.np.'
+  },
+  '/privacy': {
+    title: 'Privacy Policy — TBD Labs',
+    description: 'How TBD Labs collects, uses, and protects your information when you visit tbdlabs.com.np.'
+  },
 };
 
 function updateDocumentMeta(path) {

@@ -126,29 +126,83 @@ To ensure consistency, accountability, and traceability across the entire vibe-c
 - **Next Recommended Step (PROMPT-002):**
   - Create `AGENTS.md` and establish the global design system (CSS variables, dark color palette, typography, button/card primitives) and client routing structure for the 7 pages.
 
-### [PROMPT-002] | 2026-09-26 00:00 — Remove Featured Project Section from Home
+---
 
-- **Prompt:**
-  > `from home page remove the component which display selected project or system we engineered`
+## Prompt: Domain Confirmed — tbdlabs.com.np
 
-- **Intent & Scope:**
-  - Remove the featured project showcase block from the home page while preserving the rest of the landing page and project detail route.
-  - Keep the homepage focused on the hero, capability overview, workflow, tech strip, and inquiry call-to-action.
+- **Date / Time:** 2026-09-23T21:58 (+05:45)
+- **Prompt Summary:** User confirmed the official production domain is `tbdlabs.com.np`.
 
+### Actions Taken
+
+| File | Change |
+|---|---|
+| `public/sitemap.xml` | All 7 `<loc>` URLs updated from `https://tbdlabs.tech/` → `https://tbdlabs.com.np/` |
+| `public/robots.txt` | Sitemap reference updated from `tbdlabs.tech` → `tbdlabs.com.np` |
+| `index.html` | Added `og:url` meta tag pointing to `https://tbdlabs.com.np/` |
+| `src/pages/Contact.jsx` | Email updated from `[contact@tbdlabs.tech]` (placeholder) → `contact@tbdlabs.com.np` (live) |
+
+### Decisions
+- `tbdlabs.tech` was the placeholder domain used during initial scaffolding; now replaced with the confirmed production domain across all SEO-relevant files.
+- Email hint/placeholder brackets removed — email is now treated as a live, real address.
+
+### [PROMPT-AUDIT] | 2026-09-24 18:52 — Full Project Guideline & Quality Alignment Audit
+- **Prompt:** Project alignment check against the Codex Website Development Guide and prompt requirements for Home, About, Services, Technology, Insights, and Contact pages.
+- **Intent & Scope:** Verify that all 7 routes, content files, UI primitives, typography, accessibility constraints, and anti-hallucination rules strictly adhere to specifications.
 - **Actions Taken:**
-  - Updated `src/pages/Home.jsx` to remove the `FeaturedProjects` section and its associated imports.
-  - Kept the homepage structure intact by retaining the hero, capabilities, workflow, technology strip, and contact CTA.
-
-- **Decisions & Compliance:**
-  - This change aligns with the user request to remove the selected-work component from the primary landing page without removing the dedicated projects page.
-  - No fabricated project claims were introduced.
-
+  - Audited all 7 page components: `Home.jsx`, `About.jsx`, `Services.jsx`, `Projects.jsx`, `Technology.jsx`, `Insights.jsx`, `Contact.jsx`, and `NotFound.jsx`.
+  - Audited all 5 content data files in `src/content/`: `projects.js`, `services.js`, `team.js`, `technology.js`, `insights.js`.
+  - Audited layout components (`Navbar.jsx`, `Footer.jsx`) and primitives (`Button.jsx`, `Card.jsx`, `Badge.jsx`, `SectionHeading.jsx`).
+  - Resolved all 19 ESLint warnings/errors (unused React imports, setState in effect, unused component variables).
+  - Validated strict adherence to brand guidelines: zero fake statistics, verified founders (Bidur, David, Tumyang), verified projects (KrishiMitra, BhramGuard, AutoRent), verified 6 service categories, and verified production domain (`tbdlabs.com.np`).
 - **Verification & QA:**
-  - Build and lint checks will be run from `d:\tbd labs\tbdlabsfrontend` after the patch.
-
-- **Status:** **Completed**
-
-- **Next Logical Step:**
-  - If desired, the same home page can later be reworked with a different storytelling section without reintroducing the selected-project tiles.
+  - `npm run lint`: **0 errors, 0 warnings (100% clean)**.
+  - `npm run build`: **0 errors (Build successful in ~4.2s)**.
+### [PROMPT-003] | 2026-09-24 19:42 — Home Page Visual Architecture Overhaul
+- **Prompt:** Transform text-heavy Home page into a dynamic, visually rich engineering-first interface.
+- **Intent & Scope:** Upgrade Home page (`/`) with interactive glassmorphic simulation terminals, an asymmetric Bento Grid for capabilities, realistic simulated app window headers for featured projects, an interactive 5-stage circuit pipeline, and categorized tech capsule badges.
+- **Actions Taken:**
+  - Created [`src/components/home/HeroVisual.jsx`](file:///d:/tbd%20labs/tbdlabsfrontend/src/components/home/HeroVisual.jsx): Interactive split-hero terminal with live streaming API payloads, automated CI/CD pipeline steps, and real-time telemetry metrics.
+  - Created [`src/components/home/CapabilitiesBento.jsx`](file:///d:/tbd%20labs/tbdlabsfrontend/src/components/home/CapabilitiesBento.jsx): Asymmetric Bento Grid layout featuring visual simulated component frames, AI precision index bar, and design token palette previews.
+  - Created [`src/components/home/ProjectMockupCard.jsx`](file:///d:/tbd%20labs/tbdlabsfrontend/src/components/home/ProjectMockupCard.jsx): High-tech dark mode window headers with simulated sensor graphs for KrishiMitra, forensic waveform radar for BhramGuard, and fleet allocation matrix for AutoRent.
+  - Created [`src/components/home/WorkflowCircuit.jsx`](file:///d:/tbd%20labs/tbdlabsfrontend/src/components/home/WorkflowCircuit.jsx): Interactive 5-stage delivery pipeline with interactive artifact previews (Architecture Brief, Design Tokens, Git Diff, Container Log, Telemetry Report).
+  - Created [`src/components/home/TechStripVisual.jsx`](file:///d:/tbd%20labs/tbdlabsfrontend/src/components/home/TechStripVisual.jsx): High-density technology capsules with category badges and glowing micro-interactions.
+  - Updated [`src/pages/Home.jsx`](file:///d:/tbd%20labs/tbdlabsfrontend/src/pages/Home.jsx): Assembled all visual components into a cohesive, high-impact landing page.
+- **Verification & QA:**
+  - `npm run lint`: **0 errors, 0 warnings (100% clean)**.
+  - `npm run build`: **0 errors (Build successful in ~5.0s)**.
+- **Status:** **COMPLETED**
 
 ---
+
+### [PROMPT-004] | 2026-09-24 20:00 — Project Understanding Review
+- **Prompt:** `see the projecty and understand about it`
+- **Intent & Scope:** Read the workspace, architecture, content model, and current implementation so future work can be grounded in what actually exists.
+- **Actions Taken:**
+  - Reviewed `AGENTS.md`, `tbdlabsfrontend/package.json`, `App.jsx`, `router/Router.jsx`, all page components, content modules, layout/UI primitives, and recent Home visual components.
+  - Confirmed this is a Vite + React 19 corporate site for TBD Labs with a custom client router (no React Router), copy in `src/content/`, and production domain `tbdlabs.com.np`.
+- **Decisions & Compliance:** No code changes. Content stays factual: founders Bidur, David, Tumyang; projects KrishiMitra, BhramGuard, AutoRent; no invented stats.
+- **Verification & QA:** Read-only inspection; build/lint not re-run.
+- **Status:** **COMPLETED**
+- **Next Logical Step:** Continue page polish, wire Contact form to a real endpoint, or proceed with remaining QA/launch items from the Codex sequence.
+
+---
+
+### [PROMPT-006] | 2026-09-24 20:33 — Capabilities stacked carousel implementation
+- **Prompt:** Use the 5 images in `tbdlabsfrontend/src/assets/img` and complete the CapabilitiesBento component in the FeatureCarousel visual pattern.
+- **Intent & Scope:** Replace the text bento with a TBD-native stacked image carousel (no GSAP/Tailwind/react-router), using existing brand tokens and the five provided photos.
+- **Actions Taken:**
+  - Renamed unlabeled `Gemini_Generated_Image_apsgwiapsgwiapsg.jpg` → `cloud.jpg`.
+  - Added `src/content/capabilities.js` mapping: web, ai, mobile, uiux, cloud.
+  - Added `src/styles/capabilities-carousel.css`.
+  - Rewrote `src/components/home/CapabilitiesBento.jsx`: expanding active panel, stacked thumbnails, autoplay (paused on hover/focus), prev/next, keyboard arrows, mobile snap row, reduced-motion (no autoplay).
+- **Verification & QA:**
+  - `npm run lint`: **0 errors**.
+  - `npm run build`: **success**.
+  - Browser E2E not available in this session (no browser tools).
+- **Status:** **COMPLETED**
+- **Next Logical Step:** Compress the ~2MB JPEGs to WebP; optional visual QA in the running dev server.
+
+---
+
+
