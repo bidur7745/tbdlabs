@@ -80,10 +80,10 @@ function staffInquiryTemplate({ inquiry }) {
   };
 }
 
-function staffReplyTemplate({ staffName, messageBody }) {
+function staffReplyTemplate({ staffName, messageBody, subject }) {
   const safeMessage = escapeHtml(messageBody).replace(/\r?\n/g, '<br>');
   return {
-    subject: 'A message from TBD Labs',
+    subject,
     text: `${staffName} from TBD Labs sent you a message:\n\n${messageBody}`,
     html: emailLayout({
       preheader: 'A member of the TBD Labs team replied to your inquiry.',

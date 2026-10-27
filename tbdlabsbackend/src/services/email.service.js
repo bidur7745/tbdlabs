@@ -52,8 +52,8 @@ async function sendStaffInquiryAlert({ recipients, inquiry }) {
   });
 }
 
-async function sendStaffReply({ to, staffName, messageBody }) {
-  return send({ to, message: templates.staffReplyTemplate({ staffName, messageBody }) });
+async function sendStaffReply({ to, staffName, messageBody, subject }) {
+  return send({ to, message: templates.staffReplyTemplate({ to, staffName, messageBody, subject }) });
 }
 
 async function sendStaffWelcome({ to, name }) {

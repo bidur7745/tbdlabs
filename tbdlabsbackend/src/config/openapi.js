@@ -14,6 +14,7 @@ const openapiDocument = {
     { name: 'Staff', description: 'Superadmin staff account management' },
     { name: 'Settings', description: 'Superadmin system settings' },
     { name: 'Contact', description: 'Public project inquiry submission' },
+    { name: 'Inquiries', description: 'Staff inquiry inbox, claiming, replies, and status' },
   ],
   paths: {
     '/health': {
@@ -155,6 +156,97 @@ const openapiDocument = {
         },
       },
     },
+    '/admin/inquiries': {
+      get: {
+        tags: ['Inquiries'],
+        summary: 'List and filter inquiries',
+        security: [{ BearerAuth: [] }],
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', minimum: 1, default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 } },
+          { name: 'status', in: 'query', schema: { type: 'string', enum: ['new', 'in_progress', 'replied', 'archived'] } },
+          { name: 'service', in: 'query', schema: { type: 'string', maxLength: 100 } },
+          { name: 'search', in: 'query', schema: { type: 'string', maxLength: 200 } },
+        ],
+        responses: {
+          200: { description: 'Paginated inquiry list' },
+          401: { description: 'Authentication required' },
+        },
+      },
+    },
+    '/admin/inquiries/{id}': {
+      get: {
+        tags: ['Inquiries'],
+        summary: 'Get inquiry details and reply history',
+        security: [{ BearerAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: {
+          200: { description: 'Inquiry details including replies' },
+          400: { description: 'Invalid inquiry ID' },
+          401: { description: 'Authentication required' },
+          404: { description: 'Inquiry not found' },
+        },
+      },
+    },
+    '/admin/inquiries/{id}/claim': {
+      post: {
+        tags: ['Inquiries'],
+        summary: 'Claim or release an inquiry',
+        security: [{ BearerAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: { $ref: '#/components/schemas/ClaimInquiryRequest' } } },
+        },
+        responses: {
+          200: { description: 'Claim state updated' },
+          400: { description: 'Invalid inquiry ID or claim state' },
+          401: { description: 'Authentication required' },
+          404: { description: 'Inquiry not found' },
+          409: { description: 'Inquiry is replied, archived, or claimed by another staff member' },
+        },
+      },
+    },
+    '/admin/inquiries/{id}/reply': {
+      post: {
+        tags: ['Inquiries'],
+        summary: 'Email a reply and lock the inquiry as replied',
+        description: 'The inquiry row is locked while the email is sent and the reply is recorded. Concurrent replies receive HTTP 409 after the first commits.',
+        security: [{ BearerAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: { $ref: '#/components/schemas/SendReplyRequest' } } },
+        },
+        responses: {
+          201: { description: 'Email sent and reply recorded' },
+          400: { description: 'Invalid reply payload' },
+          401: { description: 'Authentication required' },
+          404: { description: 'Inquiry not found' },
+          409: { description: 'Inquiry already replied, archived, or claimed by another staff member' },
+          503: { description: 'Email delivery failed; no reply was recorded' },
+        },
+      },
+    },
+    '/admin/inquiries/{id}/status': {
+      patch: {
+        tags: ['Inquiries'],
+        summary: 'Set inquiry status to new or archived',
+        security: [{ BearerAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: { $ref: '#/components/schemas/UpdateInquiryStatusRequest' } } },
+        },
+        responses: {
+          200: { description: 'Inquiry status updated' },
+          400: { description: 'Invalid status payload' },
+          401: { description: 'Authentication required' },
+          404: { description: 'Inquiry not found' },
+          409: { description: 'A replied inquiry cannot be reopened or archived' },
+        },
+      },
+    },
   },
   components: {
     securitySchemes: {
@@ -192,6 +284,21 @@ const openapiDocument = {
           budget: { type: 'string', enum: ['small', 'medium', 'large', 'enterprise'] },
           message: { type: 'string', minLength: 30, maxLength: 10000 },
         },
+      },
+      ClaimInquiryRequest: {
+        type: 'object', required: ['claimed'],
+        properties: { claimed: { type: 'boolean', description: 'True to claim; false to release.' } },
+      },
+      SendReplyRequest: {
+        type: 'object', required: ['messageBody'],
+        properties: {
+          subject: { type: 'string', maxLength: 200 },
+          messageBody: { type: 'string', minLength: 2, maxLength: 10000 },
+        },
+      },
+      UpdateInquiryStatusRequest: {
+        type: 'object', required: ['status'],
+        properties: { status: { type: 'string', enum: ['new', 'archived'] } },
       },
     },
   },

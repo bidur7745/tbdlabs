@@ -11,6 +11,7 @@ const authRoutes = require('./modules/auth/auth.routes');
 const staffRoutes = require('./modules/staff/staff.routes');
 const settingsRoutes = require('./modules/settings/settings.routes');
 const contactRoutes = require('./modules/contact/contact.routes');
+const inquiryRoutes = require('./modules/inquiries/inquiries.routes');
 
 const app = express();
 if (env.TRUST_PROXY) app.set('trust proxy', 1);
@@ -51,6 +52,7 @@ app.get(`${env.API_PREFIX}/health`, async (req, res, next) => {
 app.use(`${env.API_PREFIX}/auth`, authRoutes);
 app.use(`${env.API_PREFIX}/admin/staff`, staffRoutes);
 app.use(`${env.API_PREFIX}/admin/settings`, settingsRoutes);
+app.use(`${env.API_PREFIX}/admin/inquiries`, inquiryRoutes);
 app.use(`${env.API_PREFIX}/contact`, contactRoutes);
 
 app.use(notFoundHandler);
