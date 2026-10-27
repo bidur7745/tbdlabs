@@ -5,24 +5,29 @@
   "description": "TBD Labs corporate website API",
   "main": "src/server.js",
   "type": "commonjs",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "nodemon src/server.js",
-    "build": "node --check src/server.js && node --check src/app.js",
+    "build": "node scripts/check-syntax.js",
     "start": "node src/server.js",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "seed:superadmin": "node scripts/seed-superadmin.js"
   },
   "dependencies": {
     "@scalar/express-api-reference": "^0.10.31",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.45.4",
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.1",
     "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
     "nodemailer": "^10.2.1",
     "pg": "^8.16.3",
     "zod": "^4.6.7"

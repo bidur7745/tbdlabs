@@ -8,6 +8,13 @@
       "when": 1793114952998,
       "tag": "0000_curvy_secret_warriors",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793115746029,
+      "tag": "0001_aspiring_yellow_claw",
+      "breakpoints": true
     }
   ]
 }
