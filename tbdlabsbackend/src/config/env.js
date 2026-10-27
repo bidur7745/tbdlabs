@@ -15,7 +15,14 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().regex(/^\d+[smhdwy]$/, 'JWT_EXPIRES_IN must include a duration unit, for example 7d.').default('7d'),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(900000),
   RATE_LIMIT_MAX_REQUESTS: z.coerce.number().int().positive().default(100),
+  CONTACT_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(5),
   TRUST_PROXY: booleanFromString.default(false),
+  SMTP_HOST: z.string().trim().optional(),
+  SMTP_PORT: z.coerce.number().int().positive().default(587),
+  SMTP_SECURE: booleanFromString.default(false),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  EMAIL_FROM: z.string().trim().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

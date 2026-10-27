@@ -1,4 +1,5 @@
 const staffService = require('./staff.service');
+const emailService = require('../../services/email.service');
 
 async function list(req, res) {
   const staff = await staffService.listStaff();
@@ -8,6 +9,14 @@ async function list(req, res) {
 async function create(req, res) {
   try {
     const staff = await staffService.createStaff(req.validatedBody);
+    try {
+      await emailService.sendStaffWelcome({ to: staff.email, name: staff.name });
+    } catch (emailError) {
+      console.error('Staff welcome email delivery failed.', {
+        staffId: staff.id,
+        code: emailError.code || 'EMAIL_DELIVERY_FAILED',
+      });
+    }
     return res.status(201).json({ data: { staff } });
   } catch (error) {
     if (error.code === '23505') {
