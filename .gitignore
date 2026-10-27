@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # Dependencies (applies to both frontend and backend)
 node_modules
+.npm-cache/
 
 # Build outputs
 dist
@@ -17,6 +18,7 @@ build/
 
 # Environment Variables (CRITICAL ADDITION)
 .env
+!.env.example
 .env.local
 .env.development.local
 .env.test.local
@@ -41,3 +43,4 @@ Thumbs.db
 AGENTS.md
 vibecodelog.md
 *Codex Website Development Guide*.pdf
+backendimplementationplan.md
