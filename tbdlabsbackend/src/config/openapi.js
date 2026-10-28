@@ -36,7 +36,7 @@ const openapiDocument = {
           content: { 'application/json': { schema: { $ref: '#/components/schemas/LoginRequest' } } },
         },
         responses: {
-          200: { description: 'Bearer token and account profile' },
+          200: { description: 'Bearer token and account profile, including whether a password change is required' },
           400: { description: 'Invalid request body' },
           401: { description: 'Invalid credentials or inactive account' },
           429: { description: 'Too many login attempts' },
@@ -51,6 +51,23 @@ const openapiDocument = {
         responses: {
           200: { description: 'Current account profile and permissions' },
           401: { description: 'Missing, invalid, expired, or revoked token' },
+        },
+      },
+    },
+    '/auth/change-password': {
+      post: {
+        tags: ['Authentication'],
+        summary: 'Change the current password',
+        description: 'Staff accounts created by a superadmin must change their temporary password before using protected dashboard endpoints.',
+        security: [{ BearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: { $ref: '#/components/schemas/ChangePasswordRequest' } } },
+        },
+        responses: {
+          200: { description: 'Password changed; a replacement bearer token is returned' },
+          400: { description: 'Invalid payload or current password is incorrect' },
+          401: { description: 'Missing, invalid, or expired bearer token' },
         },
       },
     },
@@ -86,11 +103,12 @@ const openapiDocument = {
           content: { 'application/json': { schema: { $ref: '#/components/schemas/CreateStaffRequest' } } },
         },
         responses: {
-          201: { description: 'Staff account created; password is never returned' },
+          201: { description: 'Staff account created and temporary credentials emailed; password is never returned by the API' },
           400: { description: 'Invalid account details' },
           401: { description: 'Authentication required' },
           403: { description: 'Superadmin access required' },
           409: { description: 'Email address already exists' },
+          503: { description: 'Welcome email could not be delivered; the account was not created' },
         },
       },
     },
@@ -191,7 +209,7 @@ const openapiDocument = {
     '/admin/inquiries/{id}/claim': {
       post: {
         tags: ['Inquiries'],
-        summary: 'Claim or release an inquiry',
+        summary: 'Claim or release an inquiry (staff only)',
         security: [{ BearerAuth: [] }],
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
         requestBody: {
@@ -202,6 +220,7 @@ const openapiDocument = {
           200: { description: 'Claim state updated' },
           400: { description: 'Invalid inquiry ID or claim state' },
           401: { description: 'Authentication required' },
+          403: { description: 'Staff role required' },
           404: { description: 'Inquiry not found' },
           409: { description: 'Inquiry is replied, archived, or claimed by another staff member' },
         },
@@ -210,7 +229,7 @@ const openapiDocument = {
     '/admin/inquiries/{id}/reply': {
       post: {
         tags: ['Inquiries'],
-        summary: 'Email a reply and lock the inquiry as replied',
+        summary: 'Email a reply and lock the inquiry as replied (staff only)',
         description: 'The inquiry row is locked while the email is sent and the reply is recorded. Concurrent replies receive HTTP 409 after the first commits.',
         security: [{ BearerAuth: [] }],
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
@@ -222,6 +241,7 @@ const openapiDocument = {
           201: { description: 'Email sent and reply recorded' },
           400: { description: 'Invalid reply payload' },
           401: { description: 'Authentication required' },
+          403: { description: 'Staff role required; superadmins are read-only' },
           404: { description: 'Inquiry not found' },
           409: { description: 'Inquiry already replied, archived, or claimed by another staff member' },
           503: { description: 'Email delivery failed; no reply was recorded' },
@@ -231,7 +251,7 @@ const openapiDocument = {
     '/admin/inquiries/{id}/status': {
       patch: {
         tags: ['Inquiries'],
-        summary: 'Set inquiry status to new or archived',
+        summary: 'Set inquiry status to new or archived (staff only)',
         security: [{ BearerAuth: [] }],
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
         requestBody: {
@@ -242,6 +262,7 @@ const openapiDocument = {
           200: { description: 'Inquiry status updated' },
           400: { description: 'Invalid status payload' },
           401: { description: 'Authentication required' },
+          403: { description: 'Staff role required' },
           404: { description: 'Inquiry not found' },
           409: { description: 'A replied inquiry cannot be reopened or archived' },
         },
@@ -256,6 +277,13 @@ const openapiDocument = {
       LoginRequest: {
         type: 'object', required: ['email', 'password'],
         properties: { email: { type: 'string', format: 'email' }, password: { type: 'string', format: 'password' } },
+      },
+      ChangePasswordRequest: {
+        type: 'object', required: ['currentPassword', 'newPassword'],
+        properties: {
+          currentPassword: { type: 'string', format: 'password' },
+          newPassword: { type: 'string', format: 'password', minLength: 12, maxLength: 72 },
+        },
       },
       CreateStaffRequest: {
         type: 'object', required: ['name', 'email', 'password'],

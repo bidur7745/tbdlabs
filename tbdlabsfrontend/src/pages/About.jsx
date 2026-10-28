@@ -48,7 +48,7 @@ export default function About({ navigate }) {
       </section>
 
       {/* Mission & Vision */}
-      <section className="section" aria-labelledby="mission-heading" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section" aria-labelledby="mission-heading" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container">
           <div className="grid-cols-2" style={{ gap: '2rem' }}>
             <div className="card">
@@ -56,7 +56,7 @@ export default function About({ navigate }) {
               <h2 id="mission-heading" style={{ fontSize: '1.5rem', marginBottom: '1rem', fontFamily: 'Space Grotesk, sans-serif' }}>
                 Make sophisticated engineering accessible to organizations that need it most.
               </h2>
-              <p style={{ color: '#9aa1b2', lineHeight: 1.75 }}>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.75 }}>
                 We bring production-grade engineering practices — clean architecture, rigorous testing, thoughtful API design — to startups, social ventures, and growth-stage companies who cannot yet afford a full in-house team but cannot afford to build on a fragile foundation.
               </p>
             </div>
@@ -65,7 +65,7 @@ export default function About({ navigate }) {
               <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontFamily: 'Space Grotesk, sans-serif' }}>
                 Technology that continues to work long after the contract ends.
               </h2>
-              <p style={{ color: '#9aa1b2', lineHeight: 1.75 }}>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.75 }}>
                 We measure success by whether the systems we build are still running, scaling, and evolving years later. Software that requires constant firefighting is not finished software. We build for longevity, not for demos.
               </p>
             </div>
@@ -74,7 +74,7 @@ export default function About({ navigate }) {
       </section>
 
       {/* Founding Team */}
-      <section className="section" aria-labelledby="team-heading" style={{ backgroundColor: 'rgba(13,15,22,0.5)' }}>
+      <section className="section" aria-labelledby="team-heading" style={{ backgroundColor: 'var(--bg-surface-elevated)' }}>
         <div className="container">
           <SectionHeading
             eyebrow="The team"
@@ -111,8 +111,8 @@ export default function About({ navigate }) {
                   )}
                   <h3 style={{ fontSize: '1.25rem', marginBottom: '0.35rem' }}>{member.name}</h3>
                   <p style={{ color: '#00e5ff', fontSize: '0.8rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '0.35rem' }}>{member.role}</p>
-                  <p style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '1.25rem' }}>{member.focus}</p>
-                  <p style={{ color: '#9aa1b2', fontSize: '0.875rem', lineHeight: 1.7, margin: 0 }}>{member.bio}</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '1.25rem' }}>{member.focus}</p>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7, margin: 0 }}>{member.bio}</p>
                 </article>
               );
             })}
@@ -140,7 +140,7 @@ export default function About({ navigate }) {
                   <Icon size={20} aria-hidden="true" />
                 </div>
                 <h3 style={{ fontSize: '1.05rem', marginBottom: '0.65rem', fontFamily: 'Space Grotesk, sans-serif' }}>{title}</h3>
-                <p style={{ color: '#9aa1b2', fontSize: '0.875rem', lineHeight: 1.7, margin: 0 }}>{description}</p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7, margin: 0 }}>{description}</p>
               </div>
             ))}
           </div>
@@ -148,11 +148,11 @@ export default function About({ navigate }) {
       </section>
 
       {/* CTA */}
-      <section className="section-compact" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section-compact" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '2rem' }}>
           <div>
             <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem', marginBottom: '0.5rem' }}>Want to work with us?</h3>
-            <p style={{ color: '#9aa1b2', margin: 0 }}>We take a limited number of engagements per quarter.</p>
+            <p style={{ color: 'var(--text-secondary)', margin: 0 }}>We take a limited number of engagements per quarter.</p>
           </div>
           <a href="/contact" className="btn btn-primary" onClick={(e) => { e.preventDefault(); navigate('/contact'); }} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             Start a conversation <ArrowRight size={15} aria-hidden="true" />

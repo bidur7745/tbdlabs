@@ -31,6 +31,7 @@ async function authGuard(req, res, next) {
       role: users.role,
       isActive: users.isActive,
       tokenVersion: users.tokenVersion,
+      mustChangePassword: users.mustChangePassword,
     }).from(users).where(eq(users.id, payload.sub)).limit(1);
 
     if (!user || !user.isActive || user.tokenVersion !== payload.ver) {
@@ -42,6 +43,7 @@ async function authGuard(req, res, next) {
       name: user.name,
       email: user.email,
       role: user.role,
+      mustChangePassword: user.mustChangePassword,
     };
     req.token = match[1];
     return next();
@@ -60,4 +62,20 @@ function requireSuperadmin(req, res, next) {
   return next();
 }
 
-module.exports = { authGuard, requireSuperadmin, JWT_OPTIONS };
+function requireStaff(req, res, next) {
+  if (req.user?.role !== 'staff') {
+    return res.status(403).json({ error: { code: 'FORBIDDEN', message: 'Staff access is required for this action.' } });
+  }
+  return next();
+}
+
+function requirePasswordChangeComplete(req, res, next) {
+  if (req.user?.mustChangePassword) {
+    return res.status(403).json({
+      error: { code: 'PASSWORD_CHANGE_REQUIRED', message: 'Change your temporary password before accessing this resource.' },
+    });
+  }
+  return next();
+}
+
+module.exports = { authGuard, requireSuperadmin, requireStaff, requirePasswordChangeComplete, JWT_OPTIONS };

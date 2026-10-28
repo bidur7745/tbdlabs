@@ -11,9 +11,18 @@ async function me(req, res) {
   return res.json({ data: { user } });
 }
 
+async function changePassword(req, res) {
+  const result = await authService.changePassword(
+    req.user.id,
+    req.validatedBody.currentPassword,
+    req.validatedBody.newPassword,
+  );
+  return res.json({ data: result });
+}
+
 async function logout(req, res) {
   await authService.logout(req.user.id);
   return res.json({ data: { message: 'You have been logged out. All active tokens for this account were revoked.' } });
 }
 
-module.exports = { login, me, logout };
+module.exports = { login, me, changePassword, logout };

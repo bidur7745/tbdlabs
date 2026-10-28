@@ -10,6 +10,7 @@ const users = pgTable('users', {
   role: userRole('role').notNull().default('staff'),
   isActive: boolean('is_active').notNull().default(true),
   tokenVersion: integer('token_version').notNull().default(0),
+  mustChangePassword: boolean('must_change_password').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

@@ -1,10 +1,10 @@
 const { Router } = require('express');
-const { authGuard, requireSuperadmin } = require('../../middleware/auth');
+const { authGuard, requirePasswordChangeComplete, requireSuperadmin } = require('../../middleware/auth');
 const { createStaffSchema, updateStaffStatusSchema } = require('./staff.schemas');
 const controller = require('./staff.controller');
 
 const router = Router();
-router.use(authGuard, requireSuperadmin);
+router.use(authGuard, requirePasswordChangeComplete, requireSuperadmin);
 
 router.get('/', controller.list);
 router.post('/', (req, res, next) => {

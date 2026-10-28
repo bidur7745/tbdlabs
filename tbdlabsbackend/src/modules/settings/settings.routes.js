@@ -1,10 +1,10 @@
 const { Router } = require('express');
-const { authGuard, requireSuperadmin } = require('../../middleware/auth');
+const { authGuard, requirePasswordChangeComplete, requireSuperadmin } = require('../../middleware/auth');
 const { updateSettingsSchema } = require('./settings.schemas');
 const controller = require('./settings.controller');
 
 const router = Router();
-router.use(authGuard, requireSuperadmin);
+router.use(authGuard, requirePasswordChangeComplete, requireSuperadmin);
 router.get('/', controller.get);
 router.patch('/', (req, res, next) => {
   const parsed = updateSettingsSchema.safeParse(req.body);

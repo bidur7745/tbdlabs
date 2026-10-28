@@ -6,7 +6,7 @@ export function WorkflowCircuit() {
       className="section"
       aria-labelledby="workflow-heading"
       style={{
-        background: 'rgba(11, 14, 21, 0.5)',
+        background: 'var(--bg-surface-elevated)',
         paddingTop: '2rem',
         paddingBottom: '1rem',
       }}
@@ -35,13 +35,14 @@ export function WorkflowCircuit() {
           <h2 id="workflow-heading" style={{ marginBottom: '1rem' }}>
             Five-stage engineering pipeline
           </h2>
-          <p style={{ color: '#9aa1b2', fontSize: '1rem', lineHeight: 1.7, maxWidth: '640px', margin: '0 auto 2rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.7, maxWidth: '640px', margin: '0 auto 2rem' }}>
             Every project follows an engineering-first lifecycle designed to eliminate ambiguity and deliver resilient software.
           </p>
 
           <img
             src={workflowImage}
             alt="Five-stage engineering pipeline"
+            className="workflow-graphic"
             style={{
               display: 'block',
               width: '100%',

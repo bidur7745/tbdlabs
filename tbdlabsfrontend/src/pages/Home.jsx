@@ -92,7 +92,7 @@ function HeroSection({ navigate }) {
                 marginBottom: '2rem',
                 fontSize: '1.05rem',
                 lineHeight: 1.7,
-                color: '#9aa1b2',
+                color: 'var(--text-secondary)',
               }}
             >
               We design and engineer production-ready systems — from intelligent AI pipelines to resilient full-stack applications — built to solve hard domain problems with verified precision.
@@ -128,18 +128,18 @@ function HeroSection({ navigate }) {
               style={{
                 display: 'flex',
                 gap: '1.5rem',
-                borderTop: '1px solid rgba(255,255,255,0.06)',
+                borderTop: '1px solid var(--border-subtle)',
                 paddingTop: '1.5rem',
               }}
             >
               <div>
                 <div style={{ color: '#00e5ff', fontFamily: 'Space Grotesk', fontSize: '1.25rem', fontWeight: 700 }}>Full-Stack & AI</div>
-                <div style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono' }}>Integrated Systems</div>
+                <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono' }}>Integrated Systems</div>
               </div>
               <div style={{ width: 1, background: 'rgba(255,255,255,0.08)' }} />
               <div>
                 <div style={{ color: '#10b981', fontFamily: 'Space Grotesk', fontSize: '1.25rem', fontWeight: 700 }}>Strict CI/CD</div>
-                <div style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono' }}>Verified Delivery</div>
+                <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono' }}>Verified Delivery</div>
               </div>
             </div>
           </div>
@@ -213,7 +213,7 @@ function InquiryBanner({ navigate }) {
 
           <p
             style={{
-              color: '#9aa1b2',
+              color: 'var(--text-secondary)',
               maxWidth: '500px',
               margin: '0 auto 2.5rem',
               fontSize: '1.05rem',

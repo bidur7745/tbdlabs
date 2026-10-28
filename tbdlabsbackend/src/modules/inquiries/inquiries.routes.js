@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { authGuard } = require('../../middleware/auth');
+const { authGuard, requirePasswordChangeComplete, requireStaff } = require('../../middleware/auth');
 const {
   listInquiriesQuerySchema,
   inquiryIdSchema,
@@ -10,7 +10,7 @@ const {
 const controller = require('./inquiries.controller');
 
 const router = Router();
-router.use(authGuard);
+router.use(authGuard, requirePasswordChangeComplete);
 
 router.get('/', (req, res, next) => {
   const parsed = listInquiriesQuerySchema.safeParse(req.query);
@@ -31,7 +31,7 @@ router.get('/:id', (req, res, next) => {
   return next();
 }, controller.get);
 
-router.post('/:id/claim', (req, res, next) => {
+router.post('/:id/claim', requireStaff, (req, res, next) => {
   const params = inquiryIdSchema.safeParse(req.params);
   const body = claimSchema.safeParse(req.body);
   if (!params.success || !body.success) {
@@ -44,7 +44,7 @@ router.post('/:id/claim', (req, res, next) => {
   return next();
 }, controller.claim);
 
-router.post('/:id/reply', (req, res, next) => {
+router.post('/:id/reply', requireStaff, (req, res, next) => {
   const params = inquiryIdSchema.safeParse(req.params);
   const body = replySchema.safeParse(req.body);
   if (!params.success || !body.success) {
@@ -58,7 +58,7 @@ router.post('/:id/reply', (req, res, next) => {
   return next();
 }, controller.reply);
 
-router.patch('/:id/status', (req, res, next) => {
+router.patch('/:id/status', requireStaff, (req, res, next) => {
   const params = inquiryIdSchema.safeParse(req.params);
   const body = updateInquiryStatusSchema.safeParse(req.body);
   if (!params.success || !body.success) {

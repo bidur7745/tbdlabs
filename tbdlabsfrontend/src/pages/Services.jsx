@@ -25,7 +25,7 @@ export default function Services({ navigate }) {
       </section>
 
       {/* Services Grid */}
-      <section className="section" aria-labelledby="services-heading" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section" aria-labelledby="services-heading" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container">
           <SectionHeading eyebrow="Capabilities" title="Six service domains" id="services-heading" />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.5rem', marginTop: '3rem' }}>
@@ -39,22 +39,22 @@ export default function Services({ navigate }) {
                     </div>
                     <div>
                       <h2 style={{ fontSize: '1.15rem', fontFamily: 'Space Grotesk, sans-serif', marginBottom: '0.3rem' }}>{svc.title}</h2>
-                      <p style={{ color: '#61687a', fontSize: '0.8rem', margin: 0 }}>{svc.subtitle}</p>
+                      <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: 0 }}>{svc.subtitle}</p>
                     </div>
                   </div>
-                  <p style={{ color: '#9aa1b2', fontSize: '0.875rem', lineHeight: 1.7, marginBottom: '1.5rem', flex: 1 }}>{svc.overview}</p>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7, marginBottom: '1.5rem', flex: 1 }}>{svc.overview}</p>
                   <div style={{ marginBottom: '1.25rem' }}>
-                    <p style={{ color: '#f3f5f8', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Key deliverables</p>
+                    <p style={{ color: 'var(--text-primary)', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Key deliverables</p>
                     <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                       {svc.deliverables.map((d) => (
-                        <li key={d} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', color: '#9aa1b2', fontSize: '0.85rem' }}>
+                        <li key={d} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                           <ChevronRight size={13} aria-hidden="true" style={{ color: '#00e5ff', marginTop: '3px', flexShrink: 0 }} />
                           {d}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', paddingTop: '1rem', borderTop: '1px solid var(--border-subtle)' }}>
                     {svc.technologies.slice(0, 5).map((tech) => (
                       <Badge key={tech} variant="neutral">{tech}</Badge>
                     ))}
@@ -67,7 +67,7 @@ export default function Services({ navigate }) {
       </section>
 
       {/* Workflow */}
-      <section className="section" aria-labelledby="workflow-heading" style={{ backgroundColor: 'rgba(13,15,22,0.5)' }}>
+      <section className="section" aria-labelledby="workflow-heading" style={{ backgroundColor: 'var(--bg-surface-elevated)' }}>
         <div className="container">
           <SectionHeading eyebrow="Process" title="How we work" subtitle="Our 5-stage engineering process applied consistently across every engagement." align="center" id="workflow-heading" />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.25rem', marginTop: '3rem' }}>
@@ -77,7 +77,7 @@ export default function Services({ navigate }) {
                   {stage.step}
                 </div>
                 <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem', fontFamily: 'Space Grotesk, sans-serif' }}>{stage.name}</h3>
-                <p style={{ color: '#9aa1b2', fontSize: '0.82rem', lineHeight: 1.65, margin: 0 }}>{stage.summary}</p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.65, margin: 0 }}>{stage.summary}</p>
               </div>
             ))}
           </div>
@@ -89,7 +89,7 @@ export default function Services({ navigate }) {
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '2rem' }}>
           <div>
             <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem', marginBottom: '0.5rem' }}>Have a project in mind?</h3>
-            <p style={{ color: '#9aa1b2', margin: 0 }}>Tell us about it and we will respond with an honest assessment.</p>
+            <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Tell us about it and we will respond with an honest assessment.</p>
           </div>
           <a href="/contact" className="btn btn-primary" onClick={(e) => { e.preventDefault(); navigate('/contact'); }} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             Get in touch <ArrowRight size={15} aria-hidden="true" />

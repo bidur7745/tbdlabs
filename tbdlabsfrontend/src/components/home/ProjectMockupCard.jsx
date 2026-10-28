@@ -50,7 +50,7 @@ export function ProjectMockupCard({ project, navigate }) {
               </span>
               <span style={{ color: '#10b981', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'JetBrains Mono' }}>98.4% Normal</span>
             </div>
-            <div style={{ display: 'flex', gap: '8px', fontSize: '0.7rem', color: '#9aa1b2', fontFamily: 'JetBrains Mono' }}>
+            <div style={{ display: 'flex', gap: '8px', fontSize: '0.7rem', color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono' }}>
               <span>Soil: 68%</span>
               <span>•</span>
               <span>NDVI: 0.84</span>
@@ -84,7 +84,7 @@ export function ProjectMockupCard({ project, navigate }) {
               </span>
               <span style={{ color: '#00e5ff', fontSize: '0.75rem', fontWeight: 600, fontFamily: 'JetBrains Mono' }}>Escrow Secured</span>
             </div>
-            <div style={{ display: 'flex', gap: '8px', fontSize: '0.7rem', color: '#9aa1b2', fontFamily: 'JetBrains Mono' }}>
+            <div style={{ display: 'flex', gap: '8px', fontSize: '0.7rem', color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono' }}>
               <span>Dispatch: Synced</span>
               <span>•</span>
               <span>KYC: Automated</span>
@@ -96,13 +96,13 @@ export function ProjectMockupCard({ project, navigate }) {
       {/* Card Content Area */}
       <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
         <div>
-          <span style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem', display: 'block' }}>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem', display: 'block' }}>
             {project.category}
           </span>
-          <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontFamily: 'Space Grotesk, sans-serif', color: '#f3f5f8' }}>
+          <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--text-primary)' }}>
             {project.title}
           </h3>
-          <p style={{ color: '#9aa1b2', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: '1.25rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: '1.25rem' }}>
             {project.summary}
           </p>
         </div>

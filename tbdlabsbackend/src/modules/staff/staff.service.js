@@ -36,6 +36,7 @@ async function createStaff({ name, email, password }) {
     passwordHash,
     role: 'staff',
     isActive: true,
+    mustChangePassword: true,
   }).returning();
   return publicStaff(created);
 }
@@ -59,4 +60,8 @@ async function updateStaffStatus(id, isActive) {
   return updated;
 }
 
-module.exports = { listStaff, createStaff, updateStaffStatus };
+async function deleteStaffAccount(id) {
+  await db.delete(users).where(and(eq(users.id, id), eq(users.role, 'staff')));
+}
+
+module.exports = { listStaff, createStaff, updateStaffStatus, deleteStaffAccount };

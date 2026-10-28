@@ -15,7 +15,7 @@ export default function NotFound({ navigate }) {
           404
         </div>
         <h1 style={{ fontSize: '1.75rem', marginBottom: '1rem' }}>Page not found</h1>
-        <p style={{ color: '#9aa1b2', marginBottom: '3rem' }}>
+        <p style={{ color: 'var(--text-secondary)', marginBottom: '3rem' }}>
           The page you are looking for does not exist or may have been moved.
         </p>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3rem' }}>
@@ -27,7 +27,7 @@ export default function NotFound({ navigate }) {
           </a>
         </div>
         <div>
-          <p style={{ color: '#61687a', fontSize: '0.8rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Quick navigation</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Quick navigation</p>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
             {QUICK_LINKS.map((link) => (
               <a
@@ -37,11 +37,11 @@ export default function NotFound({ navigate }) {
                 style={{
                   padding: '0.4rem 0.85rem', borderRadius: 9999,
                   border: '1px solid rgba(255,255,255,0.08)',
-                  color: '#9aa1b2', fontSize: '0.82rem', textDecoration: 'none',
+                  color: 'var(--text-secondary)', fontSize: '0.82rem', textDecoration: 'none',
                   transition: 'all 150ms ease',
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,229,255,0.3)'; e.currentTarget.style.color = '#00e5ff'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#9aa1b2'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
               >
                 {link.label}
               </a>

@@ -34,7 +34,7 @@ export default function Technology({ navigate }) {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="stack-heading" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section" aria-labelledby="stack-heading" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container">
           <SectionHeading
             eyebrow="Engineering stack"
@@ -49,10 +49,10 @@ export default function Technology({ navigate }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <div>
                     <h2 style={{ fontSize: '1.15rem', fontFamily: 'Space Grotesk, sans-serif', marginBottom: '0.35rem' }}>{cat.category}</h2>
-                    <p style={{ color: '#9aa1b2', fontSize: '0.875rem', margin: 0 }}>{cat.description}</p>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', margin: 0 }}>{cat.description}</p>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '12px', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '12px', paddingTop: '1rem', borderTop: '1px solid var(--border-subtle)' }}>
                     {cat.technologies.map((tech) => (
                       <a
                         key={tech.name}
@@ -66,7 +66,7 @@ export default function Technology({ navigate }) {
                           padding: '0.9rem 0.9rem 0.8rem',
                           borderRadius: 12,
                           background: 'rgba(255,255,255,0.02)',
-                          border: '1px solid rgba(255,255,255,0.06)',
+                          border: '1px solid var(--border-subtle)',
                           textDecoration: 'none',
                           transition: 'all 150ms ease',
                         }}
@@ -75,7 +75,7 @@ export default function Technology({ navigate }) {
                           e.currentTarget.style.transform = 'translateY(-1px)';
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                          e.currentTarget.style.borderColor = 'var(--border-subtle)';
                           e.currentTarget.style.transform = 'translateY(0)';
                         }}
                       >
@@ -87,7 +87,7 @@ export default function Technology({ navigate }) {
                           />
                           <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.82rem', color: '#00e5ff', fontWeight: 500 }}>{tech.name}</span>
                         </div>
-                        <span style={{ fontSize: '0.78rem', color: '#61687a', lineHeight: 1.5 }}>{tech.description}</span>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>{tech.description}</span>
                       </a>
                     ))}
                   </div>
@@ -98,7 +98,7 @@ export default function Technology({ navigate }) {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="principles-heading" style={{ backgroundColor: 'rgba(13,15,22,0.5)' }}>
+      <section className="section" aria-labelledby="principles-heading" style={{ backgroundColor: 'var(--bg-surface-elevated)' }}>
         <div className="container">
           <SectionHeading
             eyebrow="How we build"
@@ -116,7 +116,7 @@ export default function Technology({ navigate }) {
                     <Icon size={20} aria-hidden="true" />
                   </div>
                   <h3 style={{ fontSize: '1.05rem', marginBottom: '0.65rem', fontFamily: 'Space Grotesk, sans-serif' }}>{principle.title}</h3>
-                  <p style={{ color: '#9aa1b2', fontSize: '0.875rem', lineHeight: 1.7, margin: 0 }}>{principle.description}</p>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7, margin: 0 }}>{principle.description}</p>
                 </div>
               );
             })}
@@ -124,11 +124,11 @@ export default function Technology({ navigate }) {
         </div>
       </section>
 
-      <section className="section-compact" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section-compact" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '2rem' }}>
           <div>
             <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem', marginBottom: '0.5rem' }}>Need a specific technical solution?</h3>
-            <p style={{ color: '#9aa1b2', margin: 0 }}>Let’s map the right stack to your business and operational goals.</p>
+            <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Let’s map the right stack to your business and operational goals.</p>
           </div>
           <a href="/contact" className="btn btn-primary" onClick={(e) => { e.preventDefault(); navigate('/contact'); }} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             Discuss your project <ArrowRight size={15} aria-hidden="true" />

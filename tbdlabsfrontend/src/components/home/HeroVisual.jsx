@@ -34,6 +34,7 @@ export function HeroVisual() {
 
   return (
     <div
+      className="hero-visual"
       style={{
         position: 'relative',
         borderRadius: '16px',
@@ -59,7 +60,7 @@ export function HeroVisual() {
           <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f56', display: 'inline-block' }} />
           <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ffbd2e', display: 'inline-block' }} />
           <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#27c93f', display: 'inline-block' }} />
-          <span style={{ color: '#61687a', fontSize: '0.75rem', marginLeft: '8px' }}>tbd-core-runtime :: v2.4.0</span>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginLeft: '8px' }}>tbd-core-runtime :: v2.4.0</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00e5ff', display: 'inline-block', boxShadow: '0 0 6px #00e5ff' }} />
@@ -96,7 +97,7 @@ export function HeroVisual() {
               borderRadius: '8px 8px 0 0',
               cursor: 'pointer',
               background: activeTab === id ? 'rgba(0, 229, 255, 0.1)' : 'transparent',
-              color: activeTab === id ? '#00e5ff' : '#61687a',
+              color: activeTab === id ? '#00e5ff' : 'var(--text-muted)',
               borderBottom: activeTab === id ? '2px solid #00e5ff' : '2px solid transparent',
               transition: 'all 150ms ease',
             }}
@@ -112,7 +113,7 @@ export function HeroVisual() {
         {activeTab === 'stream' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-              <span style={{ color: '#9aa1b2', fontSize: '0.75rem' }}>// Real-time API Payload Stream</span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>// Real-time API Payload Stream</span>
               <span style={{ background: 'rgba(0, 229, 255, 0.1)', color: '#00e5ff', padding: '0.15rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem' }}>
                 latency: 18ms
               </span>
@@ -140,7 +141,7 @@ export function HeroVisual() {
 
         {activeTab === 'pipeline' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <div style={{ color: '#9aa1b2', fontSize: '0.75rem', marginBottom: '0.25rem' }}>// CI/CD Automated Verification Pipeline</div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '0.25rem' }}>// CI/CD Automated Verification Pipeline</div>
             {BUILD_LOGS.map((log) => (
               <div
                 key={log.step}
@@ -156,11 +157,11 @@ export function HeroVisual() {
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <CheckCircle2 size={14} color="#10b981" />
-                  <span style={{ color: '#f3f5f8', fontSize: '0.78rem' }}>{log.title}</span>
+                  <span style={{ color: 'var(--text-primary)', fontSize: '0.78rem' }}>{log.title}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span style={{ color: '#10b981', fontSize: '0.7rem' }}>{log.status}</span>
-                  <span style={{ color: '#61687a', fontSize: '0.7rem' }}>{log.time}</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>{log.time}</span>
                 </div>
               </div>
             ))}
@@ -184,11 +185,11 @@ export function HeroVisual() {
                   border: '1px solid rgba(255, 255, 255, 0.05)',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#61687a', fontSize: '0.72rem', marginBottom: '4px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: '0.72rem', marginBottom: '4px' }}>
                   <Icon size={12} color="#00e5ff" /> {label}
                 </div>
                 <div style={{ color: '#00e5ff', fontSize: '1.15rem', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif' }}>{val}</div>
-                <div style={{ color: '#61687a', fontSize: '0.68rem', marginTop: '2px' }}>{note}</div>
+                <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem', marginTop: '2px' }}>{note}</div>
               </div>
             ))}
           </div>
@@ -205,7 +206,7 @@ export function HeroVisual() {
           borderTop: '1px solid rgba(255, 255, 255, 0.06)',
           background: 'rgba(0, 0, 0, 0.3)',
           fontSize: '0.72rem',
-          color: '#61687a',
+          color: 'var(--text-muted)',
         }}
       >
         <span>Environment: Production · Multi-Region</span>

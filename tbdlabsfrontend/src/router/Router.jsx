@@ -22,9 +22,37 @@ const ROUTES_META = {
     title: 'Insights — TBD Labs',
     description: 'Technical writing and engineering perspectives from TBD Labs: systems design, AI/ML engineering, and product development.'
   },
+  '/projects': {
+    title: 'Projects — TBD Labs',
+    description: 'Selected engineering projects, AI platforms, and real-world systems built by TBD Labs: KrishiMitra, BhramGuard, and AutoRent.'
+  },
   '/contact': {
     title: 'Contact TBD Labs — Start a Conversation',
     description: 'Start a project conversation with TBD Labs. Share your brief and we will respond with an honest assessment and next steps.'
+  },
+  '/admin': {
+    title: 'Operations Console — TBD Labs',
+    description: 'TBD Labs Internal Administration & Inquiry Management.'
+  },
+  '/admin/login': {
+    title: 'Staff Login — TBD Labs',
+    description: 'Sign in to the TBD Labs staff operations console.'
+  },
+  '/admin/dashboard': {
+    title: 'Staff Dashboard — TBD Labs',
+    description: 'TBD Labs role-based operations dashboard.'
+  },
+  '/admin/superadmin': {
+    title: 'Superadmin Dashboard — TBD Labs',
+    description: 'Review inquiries, manage staff accounts, and set email notification preferences.'
+  },
+  '/admin/staff-dashboard': {
+    title: 'Staff Dashboard — TBD Labs',
+    description: 'Review inquiries and send client replies.'
+  },
+  '/admin/change-password': {
+    title: 'Change Your Password — TBD Labs',
+    description: 'Set a new password to finish activating your TBD Labs staff account.'
   },
   '/terms': {
     title: 'Terms & Conditions — TBD Labs',

@@ -93,14 +93,14 @@ function staffReplyTemplate({ staffName, messageBody, subject }) {
   };
 }
 
-function staffWelcomeTemplate({ name, email }) {
+function staffWelcomeTemplate({ name, email, temporaryPassword, loginUrl }) {
   return {
-    subject: 'Your TBD Labs staff account',
-    text: `Hello ${name},\n\nA staff account was created for ${email}. Contact the superadmin who created the account for sign-in instructions.\n\nTBD Labs`,
+    subject: 'Your TBD Labs staff sign-in details',
+    text: `Hello ${name},\n\nA TBD Labs staff account has been created for you.\n\nEmail: ${email}\nTemporary password: ${temporaryPassword}\nSign in: ${loginUrl}\n\nYou must change this temporary password after your first sign-in. Do not forward this email.\n\nTBD Labs`,
     html: emailLayout({
-      preheader: 'A staff account was created for you.',
-      title: 'Your staff account is ready',
-      content: `${paragraph(`Hello ${escapeHtml(name)},`)}${paragraph(`A staff account was created for <strong style="color:#f3f4f6;">${escapeHtml(email)}</strong>. Contact the superadmin who created the account for sign-in instructions.`)}`,
+      preheader: 'Your TBD Labs staff sign-in details and temporary password.',
+      title: 'Your staff sign-in details',
+      content: `${paragraph(`Hello ${escapeHtml(name)},`)}${paragraph('A TBD Labs staff account has been created for you. Use these details to sign in:')}<table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;margin:0 0 20px;background:#090b10;border:1px solid #272b38;border-radius:10px;"><tr><td style="padding:12px 16px;color:#8b93a3;font-size:12px;">EMAIL ADDRESS</td></tr><tr><td style="padding:0 16px 14px;color:#f3f4f6;font-size:15px;overflow-wrap:anywhere;">${escapeHtml(email)}</td></tr><tr><td style="padding:12px 16px;color:#8b93a3;font-size:12px;border-top:1px solid #272b38;">TEMPORARY PASSWORD</td></tr><tr><td style="padding:0 16px 14px;color:#f3f4f6;font:600 15px/1.5 monospace;overflow-wrap:anywhere;">${escapeHtml(temporaryPassword)}</td></tr></table><p style="margin:0 0 16px;"><a href="${escapeHtml(loginUrl)}" style="display:inline-block;padding:11px 17px;border-radius:8px;background:#00b4d8;color:#061015;font-weight:bold;text-decoration:none;">Sign in to TBD Labs</a></p>${paragraph('<strong style="color:#f3f4f6;">Required:</strong> Change this temporary password immediately after your first sign-in. Do not forward or reuse this email.')}`,
       footer: 'TBD Labs · Staff account notification',
     }),
   };

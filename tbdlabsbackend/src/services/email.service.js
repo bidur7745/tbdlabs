@@ -56,8 +56,9 @@ async function sendStaffReply({ to, staffName, messageBody, subject }) {
   return send({ to, message: templates.staffReplyTemplate({ to, staffName, messageBody, subject }) });
 }
 
-async function sendStaffWelcome({ to, name }) {
-  return send({ to, message: templates.staffWelcomeTemplate({ name, email: to }) });
+async function sendStaffWelcome({ to, name, temporaryPassword }) {
+  const loginUrl = new URL('/admin/login', env.FRONTEND_URL).toString();
+  return send({ to, message: templates.staffWelcomeTemplate({ name, email: to, temporaryPassword, loginUrl }) });
 }
 
 function closeEmailTransport() {

@@ -15,6 +15,13 @@
       "when": 1793115746029,
       "tag": "0001_aspiring_yellow_claw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793208192869,
+      "tag": "0002_reflective_demogoblin",
+      "breakpoints": true
     }
   ]
 }

@@ -27,24 +27,24 @@ export default function Insights({ navigate }) {
 
       {/* Featured Article */}
       {featured && (
-        <section className="section" aria-label="Featured article" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <section className="section" aria-label="Featured article" style={{ borderTop: '1px solid var(--border-subtle)' }}>
           <div className="container">
-            <p style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
               Featured
             </p>
             <article className="card" style={{ background: 'linear-gradient(135deg, rgba(0,229,255,0.05), rgba(0,180,216,0.02))', borderColor: 'rgba(0,229,255,0.15)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
                 <Badge variant="accent">{featured.category}</Badge>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#61687a', fontSize: '0.78rem', fontFamily: 'JetBrains Mono, monospace' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-muted)', fontSize: '0.78rem', fontFamily: 'JetBrains Mono, monospace' }}>
                   <Clock size={12} aria-hidden="true" /> {featured.readTime}
                 </span>
-                <span style={{ color: '#61687a', fontSize: '0.78rem', fontFamily: 'JetBrains Mono, monospace' }}>{featured.publishedDate}</span>
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem', fontFamily: 'JetBrains Mono, monospace' }}>{featured.publishedDate}</span>
               </div>
               <h2 style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)', fontFamily: 'Space Grotesk, sans-serif', marginBottom: '0.75rem', maxWidth: '640px' }}>
                 {featured.title}
               </h2>
-              <p style={{ color: '#9aa1b2', lineHeight: 1.75, maxWidth: '680px', fontSize: '0.9375rem' }}>{featured.excerpt}</p>
-              <p style={{ color: '#61687a', fontSize: '0.8rem', marginTop: '1.5rem', fontFamily: 'JetBrains Mono, monospace' }}>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.75, maxWidth: '680px', fontSize: '0.9375rem' }}>{featured.excerpt}</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '1.5rem', fontFamily: 'JetBrains Mono, monospace' }}>
                 By {featured.author}
               </p>
             </article>
@@ -61,15 +61,15 @@ export default function Insights({ navigate }) {
               <article key={article.id} className="card" aria-label={article.title}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem', flexWrap: 'wrap' }}>
                   <Badge variant="neutral">{article.category}</Badge>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace' }}>
                     <Clock size={11} aria-hidden="true" /> {article.readTime}
                   </span>
                 </div>
                 <h3 style={{ fontSize: '1.075rem', fontFamily: 'Space Grotesk, sans-serif', marginBottom: '0.65rem', lineHeight: 1.35 }}>
                   {article.title}
                 </h3>
-                <p style={{ color: '#9aa1b2', fontSize: '0.875rem', lineHeight: 1.7 }}>{article.excerpt}</p>
-                <p style={{ color: '#61687a', fontSize: '0.75rem', marginTop: '1.25rem', fontFamily: 'JetBrains Mono, monospace' }}>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7 }}>{article.excerpt}</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '1.25rem', fontFamily: 'JetBrains Mono, monospace' }}>
                   {article.publishedDate} · {article.author}
                 </p>
               </article>
@@ -79,11 +79,11 @@ export default function Insights({ navigate }) {
       </section>
 
       {/* CTA */}
-      <section className="section-compact" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section-compact" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '2rem' }}>
           <div>
             <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem', marginBottom: '0.5rem' }}>Have a technical problem to solve?</h3>
-            <p style={{ color: '#9aa1b2', margin: 0 }}>Talk to the team directly.</p>
+            <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Talk to the team directly.</p>
           </div>
           <a href="/contact" className="btn btn-primary" onClick={(e) => { e.preventDefault(); navigate('/contact'); }} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             Get in touch <ArrowRight size={15} aria-hidden="true" />

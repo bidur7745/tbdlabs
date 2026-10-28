@@ -31,7 +31,7 @@ export default function Projects({ navigate }) {
       </section>
 
       {/* Projects */}
-      <section className="section" aria-labelledby="projects-heading" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section" aria-labelledby="projects-heading" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container">
           {/* Filter tabs */}
           <div role="group" aria-label="Filter projects by category" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
@@ -45,7 +45,7 @@ export default function Projects({ navigate }) {
                   borderRadius: '9999px',
                   border: `1px solid ${activeFilter === tab ? 'rgba(0,229,255,0.4)' : 'rgba(255,255,255,0.08)'}`,
                   background: activeFilter === tab ? 'rgba(0,229,255,0.1)' : 'transparent',
-                  color: activeFilter === tab ? '#00e5ff' : '#9aa1b2',
+                  color: activeFilter === tab ? '#00e5ff' : 'var(--text-secondary)',
                   fontSize: '0.82rem',
                   fontFamily: 'JetBrains Mono, monospace',
                   cursor: 'pointer',
@@ -65,23 +65,23 @@ export default function Projects({ navigate }) {
                     <Badge variant={project.statusType === 'live' ? 'live' : 'concept'}>
                       {project.statusType === 'live' ? '● ' : '◐ '}{project.status}
                     </Badge>
-                    <span style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace' }}>{project.category}</span>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace' }}>{project.category}</span>
                   </div>
                   <h2 style={{ fontSize: '1.5rem', fontFamily: 'Space Grotesk, sans-serif', marginBottom: '0.35rem' }}>{project.title}</h2>
-                  <p style={{ color: '#61687a', fontSize: '0.85rem', fontStyle: 'italic', marginBottom: '1rem' }}>{project.tagline}</p>
-                  <p style={{ color: '#9aa1b2', fontSize: '0.9rem', lineHeight: 1.75, marginBottom: '1.5rem' }}>{project.description}</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', marginBottom: '1rem' }}>{project.tagline}</p>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.75, marginBottom: '1.5rem' }}>{project.description}</p>
                   <div style={{ marginBottom: '1.5rem' }}>
-                    <p style={{ color: '#f3f5f8', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.65rem' }}>Engineering highlights</p>
+                    <p style={{ color: 'var(--text-primary)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.65rem' }}>Engineering highlights</p>
                     <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                       {project.highlights.map((h) => (
-                        <li key={h} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', color: '#9aa1b2', fontSize: '0.875rem' }}>
+                        <li key={h} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
                           <ChevronRight size={13} aria-hidden="true" style={{ color: '#00e5ff', marginTop: '3px', flexShrink: 0 }} />
                           {h}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', paddingTop: '1.25rem', borderTop: '1px solid var(--border-subtle)' }}>
                     {project.technologies.map((tech) => (
                       <Badge key={tech} variant="neutral">{tech}</Badge>
                     ))}
@@ -94,11 +94,11 @@ export default function Projects({ navigate }) {
       </section>
 
       {/* CTA */}
-      <section className="section-compact" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section-compact" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '2rem' }}>
           <div>
             <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem', marginBottom: '0.5rem' }}>Working on something similar?</h3>
-            <p style={{ color: '#9aa1b2', margin: 0 }}>Share your brief and let us discuss what is technically possible.</p>
+            <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Share your brief and let us discuss what is technically possible.</p>
           </div>
           <a href="/contact" className="btn btn-primary" onClick={(e) => { e.preventDefault(); navigate('/contact'); }} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             Start a conversation <ArrowRight size={15} aria-hidden="true" />

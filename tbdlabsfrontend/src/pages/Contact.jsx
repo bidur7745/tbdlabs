@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { submitContactInquiry } from '../services/api.js';
 
 const SERVICE_OPTIONS = [
   'Web Development',
@@ -12,21 +13,40 @@ const SERVICE_OPTIONS = [
 ];
 
 const initialForm = {
-  name: '', email: '', organization: '',
+  name: '', email: '', phone: '', organization: '',
   service: '', budget: '', message: '',
 };
 
 function validate(form) {
   const errors = {};
-  if (!form.name.trim()) errors.name = 'Full name is required.';
+  if (!form.name.trim()) {
+    errors.name = 'Full name is required.';
+  } else if (form.name.trim().length < 2) {
+    errors.name = 'Full name must be at least 2 characters.';
+  }
+
   if (!form.email.trim()) {
     errors.email = 'Email address is required.';
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
     errors.email = 'Please enter a valid email address.';
   }
+
+  if (!form.phone.trim()) {
+    errors.phone = 'Phone number is required.';
+  } else if (form.phone.trim().length < 7) {
+    errors.phone = 'Please enter a valid phone number (at least 7 digits).';
+  } else if (form.phone.trim().length > 35) {
+    errors.phone = 'Phone number cannot exceed 35 characters.';
+  } else if (!/^[0-9+\s\-()]{7,35}$/.test(form.phone.trim())) {
+    errors.phone = 'Please enter a valid phone number format.';
+  }
+
   if (!form.service) errors.service = 'Please select a service category.';
-  if (!form.message.trim()) errors.message = 'A message is required.';
-  else if (form.message.trim().length < 30) errors.message = 'Please provide a bit more detail (at least 30 characters).';
+  if (!form.message.trim()) {
+    errors.message = 'A message is required.';
+  } else if (form.message.trim().length < 30) {
+    errors.message = 'Please provide a bit more detail (at least 30 characters).';
+  }
   return errors;
 }
 
@@ -34,20 +54,38 @@ export default function Contact() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
+  const [serverError, setServerError] = useState('');
   const [touched, setTouched] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    if (touched[name]) {
-      setErrors((prev) => ({ ...prev, ...validate({ ...form, [name]: value }) }));
-    }
+    const nextForm = { ...form, [name]: value };
+    setForm(nextForm);
+    const validationErrors = validate(nextForm);
+    setErrors((prev) => {
+      const next = { ...prev };
+      if (validationErrors[name]) {
+        next[name] = validationErrors[name];
+      } else {
+        delete next[name];
+      }
+      return next;
+    });
   };
 
   const handleBlur = (e) => {
     const { name } = e.target;
     setTouched((prev) => ({ ...prev, [name]: true }));
-    setErrors((prev) => ({ ...prev, ...validate(form) }));
+    const validationErrors = validate(form);
+    setErrors((prev) => {
+      const next = { ...prev };
+      if (validationErrors[name]) {
+        next[name] = validationErrors[name];
+      } else {
+        delete next[name];
+      }
+      return next;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -55,16 +93,32 @@ export default function Contact() {
     const allTouched = Object.fromEntries(Object.keys(form).map((k) => [k, true]));
     setTouched(allTouched);
     const validationErrors = validate(form);
+    setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
       return;
     }
+
     setStatus('loading');
-    // Decoupled submission hook — connect to your endpoint or form service here.
-    await new Promise((r) => setTimeout(r, 1200));
-    setStatus('success');
-    setForm(initialForm);
-    setTouched({});
+    setServerError('');
+
+    const res = await submitContactInquiry(form);
+
+    if (res.ok) {
+      setStatus('success');
+      setForm(initialForm);
+      setTouched({});
+      setErrors({});
+    } else {
+      setStatus('error');
+      setServerError(res.error?.message || 'Submission failed. Please try again or email us directly.');
+      if (res.details && Array.isArray(res.details)) {
+        const backendErrors = {};
+        res.details.forEach(({ field, message }) => {
+          if (field) backendErrors[field] = message;
+        });
+        setErrors((prev) => ({ ...prev, ...backendErrors }));
+      }
+    }
   };
 
   return (
@@ -86,7 +140,7 @@ export default function Contact() {
       </section>
 
       {/* Main content */}
-      <section className="section" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <section className="section" style={{ borderTop: '1px solid var(--border-subtle)' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
 
@@ -96,7 +150,7 @@ export default function Contact() {
                 <div style={{ padding: '3rem', textAlign: 'center', background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: '16px' }}>
                   <CheckCircle size={44} aria-hidden="true" style={{ color: '#10b981', marginBottom: '1rem' }} />
                   <h2 style={{ fontSize: '1.35rem', marginBottom: '0.75rem' }}>Message received</h2>
-                  <p style={{ color: '#9aa1b2' }}>Thank you for reaching out. We will review your brief and get back to you as soon as possible.</p>
+                  <p style={{ color: 'var(--text-secondary)' }}>Thank you for reaching out. We will review your brief and get back to you as soon as possible.</p>
                   <button className="btn btn-secondary" style={{ marginTop: '2rem' }} onClick={() => setStatus('idle')}>
                     Send another message
                   </button>
@@ -147,10 +201,39 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  {/* Organization */}
-                  <div className="form-group">
-                    <label htmlFor="contact-org" className="form-label">Organization <span style={{ color: '#61687a', fontWeight: 400 }}>(optional)</span></label>
-                    <input id="contact-org" name="organization" type="text" className="form-input" placeholder="Company or project name" value={form.organization} onChange={handleChange} />
+                  {/* Phone & Organization Row */}
+                  <div className="grid-cols-2" style={{ gap: '1.25rem' }}>
+                    {/* Phone (Mandatory) */}
+                    <div className="form-group">
+                      <label htmlFor="contact-phone" className="form-label">
+                        Phone number <span aria-hidden="true" style={{ color: '#00e5ff' }}>*</span>
+                      </label>
+                      <input
+                        id="contact-phone" name="phone" type="tel"
+                        className="form-input"
+                        placeholder="+977 98XXXXXXXX"
+                        value={form.phone} onChange={handleChange} onBlur={handleBlur}
+                        aria-required="true"
+                        aria-describedby={errors.phone ? 'phone-error' : undefined}
+                        aria-invalid={!!errors.phone}
+                      />
+                      {touched.phone && errors.phone && (
+                        <span id="phone-error" className="form-error-msg" role="alert">{errors.phone}</span>
+                      )}
+                    </div>
+
+                    {/* Organization (Optional) */}
+                    <div className="form-group">
+                      <label htmlFor="contact-org" className="form-label">
+                        Organization <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span>
+                      </label>
+                      <input
+                        id="contact-org" name="organization" type="text"
+                        className="form-input"
+                        placeholder="Company or project name"
+                        value={form.organization} onChange={handleChange} onBlur={handleBlur}
+                      />
+                    </div>
                   </div>
 
                   {/* Service */}
@@ -178,7 +261,7 @@ export default function Contact() {
 
                   {/* Budget */}
                   <div className="form-group">
-                    <label htmlFor="contact-budget" className="form-label">Project scope / budget range <span style={{ color: '#61687a', fontWeight: 400 }}>(optional)</span></label>
+                    <label htmlFor="contact-budget" className="form-label">Project scope / budget range <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span></label>
                     <select id="contact-budget" name="budget" className="form-select" value={form.budget} onChange={handleChange}>
                       <option value="">Prefer not to say</option>
                       <option value="small">Small project (&lt; $2,000)</option>
@@ -209,7 +292,8 @@ export default function Contact() {
 
                   {status === 'error' && (
                     <div role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0.75rem 1rem', borderRadius: '10px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '0.875rem', marginBottom: '1rem' }}>
-                      <AlertCircle size={16} aria-hidden="true" /> Submission failed. Please try again or email us directly.
+                      <AlertCircle size={16} aria-hidden="true" style={{ flexShrink: 0 }} />
+                      <span>{serverError || 'Submission failed. Please try again or email us directly.'}</span>
                     </div>
                   )}
 
@@ -222,7 +306,7 @@ export default function Contact() {
                   >
                     {status === 'loading' ? (
                       <>
-                        <span aria-hidden="true" style={{ width: 14, height: 14, border: '2px solid rgba(7,8,11,0.3)', borderTopColor: '#07080b', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.6s linear infinite' }} />
+                        <span aria-hidden="true" style={{ width: 14, height: 14, border: '2px solid rgba(7,8,11,0.3)', borderTopColor: 'var(--bg-canvas)', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.6s linear infinite' }} />
                         Sending...
                       </>
                     ) : (
@@ -246,8 +330,8 @@ export default function Contact() {
                       <Icon size={18} aria-hidden="true" />
                     </div>
                     <div>
-                      <p style={{ color: '#61687a', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>{label}</p>
-                      <p style={{ color: hint ? '#61687a' : '#f3f5f8', fontSize: '0.9rem', fontStyle: hint ? 'italic' : 'normal', margin: 0 }}>{value}</p>
+                      <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>{label}</p>
+                      <p style={{ color: hint ? 'var(--text-muted)' : 'var(--text-primary)', fontSize: '0.9rem', fontStyle: hint ? 'italic' : 'normal', margin: 0 }}>{value}</p>
                     </div>
                   </div>
                 ))}
@@ -262,7 +346,7 @@ export default function Contact() {
                     'We say no if it is not the right fit',
                     'Response time: within a few business days'
                   ].map((item) => (
-                    <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', color: '#9aa1b2', fontSize: '0.85rem' }}>
+                    <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                       <span style={{ color: '#00e5ff', marginTop: '1px', flexShrink: 0 }}>✓</span>
                       {item}
                     </li>

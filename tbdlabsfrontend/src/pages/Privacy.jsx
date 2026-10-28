@@ -149,7 +149,7 @@ export default function Privacy({ navigate }) {
                     </h3>
                   </div>
                   {section.content && (
-                    <p style={{ color: '#9ca3af', fontSize: '0.925rem', lineHeight: 1.75, margin: 0 }}>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.925rem', lineHeight: 1.75, margin: 0 }}>
                       {section.content}
                     </p>
                   )}
@@ -159,7 +159,7 @@ export default function Privacy({ navigate }) {
                       display: 'flex', flexDirection: 'column', gap: '0.5rem',
                     }}>
                       {section.list.map((item, i) => (
-                        <li key={i} style={{ color: '#9ca3af', fontSize: '0.9rem', lineHeight: 1.7 }}>
+                        <li key={i} style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.7 }}>
                           {item}
                         </li>
                       ))}
@@ -188,7 +188,7 @@ export default function Privacy({ navigate }) {
               background: 'linear-gradient(135deg, rgba(0,229,255,0.05), rgba(0,180,216,0.02))',
             }}
           >
-            <p style={{ color: '#9ca3af', fontSize: '0.925rem', lineHeight: 1.75, margin: 0 }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.925rem', lineHeight: 1.75, margin: 0 }}>
               For questions about this policy, visit our{' '}
               <a
                 href="/contact"

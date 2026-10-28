@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '../ui/Button.jsx';
+import { ThemeToggle } from '../ui/ThemeToggle.jsx';
 import logoImg from '../../assets/img/logo.png';
 
 const NAV_LINKS = [
@@ -37,9 +38,9 @@ export function Navbar({ currentPath, navigate }) {
           left: 0,
           right: 0,
           zIndex: 1000,
-          backgroundColor: scrolled ? 'rgba(7, 8, 11, 0.92)' : 'transparent',
+          backgroundColor: scrolled ? 'var(--bg-overlay)' : 'transparent',
           backdropFilter: scrolled ? 'blur(16px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : '1px solid transparent',
+          borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid transparent',
           transition: 'all 250ms cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
@@ -80,7 +81,7 @@ export function Navbar({ currentPath, navigate }) {
                       borderRadius: '8px',
                       fontSize: '0.875rem',
                       fontWeight: 500,
-                      color: currentPath === link.href ? '#00e5ff' : '#9aa1b2',
+                      color: currentPath === link.href ? '#00e5ff' : 'var(--text-secondary)',
                       backgroundColor: currentPath === link.href ? 'rgba(0, 229, 255, 0.08)' : 'transparent',
                       transition: 'all 150ms ease',
                       textDecoration: 'none',
@@ -96,6 +97,7 @@ export function Navbar({ currentPath, navigate }) {
 
             {/* Desktop CTA */}
             <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <ThemeToggle />
               <Button
                 href="/contact"
                 variant="primary"
@@ -115,7 +117,7 @@ export function Navbar({ currentPath, navigate }) {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#f3f5f8',
+                color: 'var(--text-primary)',
                 cursor: 'pointer',
                 padding: '8px',
                 borderRadius: '8px',
@@ -136,7 +138,7 @@ export function Navbar({ currentPath, navigate }) {
             position: 'fixed',
             inset: 0,
             zIndex: 999,
-            backgroundColor: 'rgba(7, 8, 11, 0.97)',
+            backgroundColor: 'var(--bg-overlay)',
             backdropFilter: 'blur(20px)',
             display: 'flex',
             flexDirection: 'column',
@@ -155,16 +157,17 @@ export function Navbar({ currentPath, navigate }) {
                 fontSize: '1.125rem',
                 fontFamily: 'Space Grotesk, sans-serif',
                 fontWeight: 600,
-                color: currentPath === link.href ? '#00e5ff' : '#f3f5f8',
+                color: currentPath === link.href ? '#00e5ff' : 'var(--text-primary)',
                 backgroundColor: currentPath === link.href ? 'rgba(0,229,255,0.08)' : 'transparent',
                 textDecoration: 'none',
-                borderBottom: '1px solid rgba(255,255,255,0.06)',
+                borderBottom: '1px solid var(--border-subtle)',
                 transition: 'all 150ms ease',
               }}
             >
               {link.label}
             </a>
           ))}
+          <ThemeToggle className="mobile-theme-toggle" />
         </div>
       )}
     </>

@@ -18,7 +18,7 @@ const optionalText = (max) => z.preprocess(
 const contactSchema = z.object({
   name: z.string().trim().min(2).max(150),
   email: z.string().trim().email().max(255).transform((value) => value.toLowerCase()),
-  phone: optionalText(35),
+  phone: z.string().trim().min(7, 'Phone number must be at least 7 characters.').max(35, 'Phone number cannot exceed 35 characters.'),
   organization: optionalText(150),
   service: z.enum(SERVICE_OPTIONS),
   budget: z.preprocess(

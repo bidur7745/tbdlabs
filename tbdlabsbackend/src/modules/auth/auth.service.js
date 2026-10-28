@@ -16,14 +16,28 @@ function toPublicUser(user) {
     email: user.email,
     role: user.role,
     isActive: user.isActive,
+    mustChangePassword: user.mustChangePassword,
     createdAt: user.createdAt,
   };
 }
 
+function createAccessToken(user) {
+  return jwt.sign(
+    { ver: user.tokenVersion },
+    env.JWT_SECRET,
+    {
+      algorithm: 'HS256',
+      issuer: JWT_OPTIONS.issuer,
+      audience: JWT_OPTIONS.audience,
+      subject: user.id,
+      expiresIn: env.JWT_EXPIRES_IN,
+    },
+  );
+}
+
 function permissionsFor(role) {
-  const permissions = ['inquiries:read', 'inquiries:manage'];
-  if (role === 'superadmin') permissions.push('staff:manage', 'settings:manage');
-  return permissions;
+  if (role === 'superadmin') return ['inquiries:read', 'staff:manage', 'settings:manage'];
+  return ['inquiries:read', 'inquiries:claim', 'inquiries:reply', 'inquiries:status'];
 }
 
 async function login(email, password) {
@@ -36,17 +50,7 @@ async function login(email, password) {
     throw error;
   }
 
-  const token = jwt.sign(
-    { ver: user.tokenVersion },
-    env.JWT_SECRET,
-    {
-      algorithm: 'HS256',
-      issuer: JWT_OPTIONS.issuer,
-      audience: JWT_OPTIONS.audience,
-      subject: user.id,
-      expiresIn: env.JWT_EXPIRES_IN,
-    },
-  );
+  const token = createAccessToken(user);
 
   return {
     user: toPublicUser(user),
@@ -62,10 +66,35 @@ async function getCurrentUser(userId) {
   return { ...toPublicUser(user), permissions: permissionsFor(user.role) };
 }
 
+async function changePassword(userId, currentPassword, newPassword) {
+  const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+  if (!user || !user.isActive || !(await bcrypt.compare(currentPassword, user.passwordHash))) {
+    const error = new Error('Current password is incorrect.');
+    error.statusCode = 400;
+    error.code = 'INVALID_CURRENT_PASSWORD';
+    throw error;
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, 12);
+  const [updated] = await db.update(users).set({
+    passwordHash,
+    mustChangePassword: false,
+    tokenVersion: sql`${users.tokenVersion} + 1`,
+    updatedAt: new Date(),
+  }).where(eq(users.id, userId)).returning();
+
+  return {
+    user: { ...toPublicUser(updated), permissions: permissionsFor(updated.role) },
+    token: createAccessToken(updated),
+    tokenType: 'Bearer',
+    expiresIn: env.JWT_EXPIRES_IN,
+  };
+}
+
 async function logout(userId) {
   await db.update(users)
     .set({ tokenVersion: sql`${users.tokenVersion} + 1`, updatedAt: new Date() })
     .where(eq(users.id, userId));
 }
 
-module.exports = { login, getCurrentUser, logout };
+module.exports = { login, getCurrentUser, changePassword, logout };

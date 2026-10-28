@@ -1,4 +1,4 @@
-import { GitBranch, ExternalLink, Share2, Mail, ArrowRight } from 'lucide-react';
+import { GitBranch, ExternalLink, Share2, Mail, LockKeyhole, ArrowRight } from 'lucide-react';
 import logoImg from '../../assets/img/logo.png';
 
 const FOOTER_LINKS = {
@@ -28,20 +28,20 @@ export function Footer({ navigate }) {
   return (
     <footer
       style={{
-        backgroundColor: '#07080b',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
+        backgroundColor: 'var(--bg-canvas)',
+        borderTop: '1px solid var(--border-subtle)',
         marginTop: 'auto',
       }}
     >
       {/* Top inquiry strip */}
-      <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '3rem 0' }}>
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', padding: '3rem 0' }}>
         <div className="container">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div>
               <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.375rem', marginBottom: '0.5rem' }}>
                 Have a project in mind?
               </h3>
-              <p style={{ color: '#61687a', fontSize: '0.9rem', margin: 0 }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: 0 }}>
                 Let&apos;s discuss what we can build together.
               </p>
             </div>
@@ -70,7 +70,7 @@ export function Footer({ navigate }) {
               >
                 <img src={logoImg} alt="TBD Labs" height="120" style={{ width: 'auto' }} />
               </a>
-              <p style={{ color: '#61687a', fontSize: '0.875rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
                 Technology Beyond Dimensions. Building production-grade software, intelligent systems, and scalable digital solutions.
               </p>
               <div style={{ display: 'flex', gap: '12px' }}>
@@ -79,12 +79,13 @@ export function Footer({ navigate }) {
                   { Icon: ExternalLink, label: 'LinkedIn', href: '#' },
                   { Icon: Share2, label: 'X / Twitter', href: '#' },
                   { Icon: Mail, label: 'Email', href: '/contact' },
+                  { Icon: LockKeyhole, label: 'Staff login', href: '/admin/login' },
                 ].map(({ Icon, label, href }) => (
                   <a
                     key={label}
                     href={href}
                     aria-label={label}
-                    onClick={href === '/contact' ? (e) => handleNav(e, '/contact') : undefined}
+                    onClick={href === '/contact' || href === '/admin/login' ? (e) => handleNav(e, href) : undefined}
                     style={{
                       width: '36px',
                       height: '36px',
@@ -93,11 +94,11 @@ export function Footer({ navigate }) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#61687a',
+                      color: 'var(--text-muted)',
                       transition: 'all 150ms ease',
                     }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,229,255,0.4)'; e.currentTarget.style.color = '#00e5ff'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#61687a'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'var(--text-muted)'; }}
                   >
                     <Icon size={15} aria-hidden="true" />
                   </a>
@@ -108,7 +109,7 @@ export function Footer({ navigate }) {
             {/* Link columns */}
             {Object.entries(FOOTER_LINKS).map(([group, links]) => (
               <div key={group}>
-                <h4 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#f3f5f8', marginBottom: '1rem' }}>
+                <h4 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-primary)', marginBottom: '1rem' }}>
                   {group}
                 </h4>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -117,9 +118,9 @@ export function Footer({ navigate }) {
                       <a
                         href={link.href}
                         onClick={(e) => handleNav(e, link.href)}
-                        style={{ color: '#61687a', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 150ms ease' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.color = '#9aa1b2'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = '#61687a'; }}
+                        style={{ color: 'var(--text-muted)', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 150ms ease' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
                       >
                         {link.label}
                       </a>
@@ -135,30 +136,30 @@ export function Footer({ navigate }) {
       {/* Bottom bar */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '1.25rem 0' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <p style={{ color: '#61687a', fontSize: '0.8rem', margin: 0 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: 0 }}>
             © {new Date().getFullYear()} TBD Labs. All rights reserved.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <a
               href="/terms"
               onClick={(e) => handleNav(e, '/terms')}
-              style={{ color: '#61687a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 150ms ease' }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#9aa1b2'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = '#61687a'; }}
+              style={{ color: 'var(--text-muted)', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 150ms ease' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
             >
               Terms & Conditions
             </a>
             <a
               href="/privacy"
               onClick={(e) => handleNav(e, '/privacy')}
-              style={{ color: '#61687a', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 150ms ease' }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#9aa1b2'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = '#61687a'; }}
+              style={{ color: 'var(--text-muted)', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 150ms ease' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
             >
               Privacy Policy
             </a>
           </div>
-          <p style={{ color: '#61687a', fontSize: '0.8rem', margin: 0, fontFamily: 'JetBrains Mono, monospace' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: 0, fontFamily: 'JetBrains Mono, monospace' }}>
             Technology Beyond Dimensions
           </p>
         </div>

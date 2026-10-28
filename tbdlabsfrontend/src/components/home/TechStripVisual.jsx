@@ -24,11 +24,11 @@ export function TechStripVisual() {
       aria-label="Core Technology Stack"
       style={{
         padding: '3.5rem 0',
-        borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+        borderTop: '1px solid var(--border-subtle)',
+        borderBottom: '1px solid var(--border-subtle)',
         position: 'relative',
         overflow: 'hidden',
-        background: 'rgba(8, 9, 13, 0.6)',
+        background: 'var(--bg-surface-elevated)',
       }}
     >
       <div className="container" style={{ marginBottom: '1.75rem', textAlign: 'center' }}>
@@ -36,7 +36,7 @@ export function TechStripVisual() {
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00e5ff', display: 'inline-block', boxShadow: '0 0 8px rgba(0,229,255,0.8)' }} />
           <p
             style={{
-              color: '#61687a',
+              color: 'var(--text-muted)',
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.12em',
@@ -71,9 +71,9 @@ export function TechStripVisual() {
                 gap: '10px',
                 padding: '0.65rem 1.25rem',
                 borderRadius: '9999px',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                backgroundColor: 'rgba(14, 17, 24, 0.75)',
-                color: '#f3f5f8',
+                border: '1px solid var(--border-subtle)',
+                backgroundColor: 'var(--bg-card)',
+                color: 'var(--text-primary)',
                 fontSize: '0.875rem',
                 fontFamily: 'JetBrains Mono, monospace',
                 whiteSpace: 'nowrap',
@@ -93,8 +93,8 @@ export function TechStripVisual() {
                   filter: item.name === 'Next.js' || item.name === 'PyTorch' ? 'brightness(1.2)' : 'none',
                 }}
               />
-              <span style={{ fontWeight: 600, color: '#f3f5f8' }}>{item.name}</span>
-              <span style={{ color: '#61687a', fontSize: '0.72rem' }}>· {item.category}</span>
+              <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{item.name}</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.72rem' }}>· {item.category}</span>
             </div>
           ))}
         </div>
